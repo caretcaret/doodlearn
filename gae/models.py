@@ -1,8 +1,8 @@
 from google.appengine.ext import ndb
 
 
-class Video(ndb.model):
-    is_parent = ndb.BooleanProperty(required=True)
+class Video(ndb.Model):
+    parent_video = ndb.KeyProperty(kind='Video',default=None)
     name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     standards = ndb.StringProperty() 
@@ -15,7 +15,7 @@ VP_PRACTICE = 'practice'
 VP_CURIOUS = 'curious'
 
 
-class VideoPoint(ndb.model):
+class VideoPoint(ndb.Model):
     user = ndb.UserProperty(required=True)
     video = ndb.KeyProperty(kind=Video, required=True)
     # represents the time in the video!
