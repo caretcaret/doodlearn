@@ -27,18 +27,29 @@
             <div style="position:relative;">
         <a class='btn' href='javascript:;'>
             Choose File...
-            <div id="upload"><input type="file" accept="video/*;capture=camcorder" name="video"></div>
+            <div class="upload"><input type="file" accept="video/*;capture=camcorder" name="video"></div>
         </a>
         <span class='label label-info' id="upload-file-info"></span>
         </div>
+        </div>
             
             <br>
+        <div class="row">
+            <label><div class="field"> Upload Thumbnail: </div></label>
+            <div style="position:relative;">
+            <a class='btn' href='javascript:;'>
+            Choose File...
+            <div class="upload"><input type="file" accept="image/*;capture=camera" name="image"></div>
+        </a>
+        <span class='label label-info' id="upload-file-info"></span>
+        </div>
+    </div>
 
-            <label> Upload Thumbnail: </label>
-            <input type="file" accept="image/*;capture=camera" name="thumbnail">
-            <br />
+            <br>
+            <div class="row">
 
             <input type="submit" name="submit" class="btn btn-primary btn-large" value="    Submit    "/>
+        </div>
         </div>
         </form> 
 {% endblock %}
