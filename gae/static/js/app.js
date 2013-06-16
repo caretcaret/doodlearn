@@ -25,7 +25,7 @@ $(document).ready(function(){
             console.log(data);
             if (data.url) {
 		button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Need some help? <button type="button" class="close">×</button>',
                 content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
@@ -34,7 +34,7 @@ $(document).ready(function(){
 		}
 	     else {
 		button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Need some help? <button type="button" class="close">×</button>',
                 content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
@@ -59,7 +59,7 @@ $(document).ready(function(){
             console.log(data);
 	    if(data.url) {
             button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Are you curious? <button type="button" class="close">×</button>',
                 content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
@@ -115,29 +115,34 @@ $(document).ready(function(){
 
     function dynamicUpload() {
         dynamicCount++;
-        if ((dynamicCount >= confused_vpgs[coId].time) &&
-                (dynamicCount <= (confused_vpgs[coId].time+30))){
+        if (dynamicCount == confused_vpgs[coId].time){
             $("#upload-confused").show();
+            $("#upload-confused").data("vpg", confused_vpgs[coId].id);
+        } else if (dynamicCount == (confused_vpgs[coId].time + 30)){
             coId++;
-        } else {
             $("#upload-confused").hide();
         }
-        if ((dynamicCount >= curious_vpgs[cuId].time) &&
-                (dynamicCount <= (curious_vpgs[cuId].time+30))){
+        if (dynamicCount == curious_vpgs[cuId].time){
             $("#upload-curious").show();
+            $("#upload-curious").data("vpg", curious_vpgs[cuId].id);
+        } else if (dynamicCount == (confused_vpgs[cuId].time + 30)){
             cuId++;
-        } else {
             $("#upload-curious").hide();
         }
 
-        if ((dynamicCount >= practice_vpgs[prId].time) &&
-            (dynamicCount <= (practice_vpgs[prId].time+30))){
+        if (dynamicCount == practice_vpgs[prId].time){
             $("#upload-practice").show();
-            prId++;
-        } else {
+            $("#upload-practice").data("vpg", practice_vpgs[prId].id);
+        } else if (dynamicCount == (practice_vpgs[prId].time + 30){
             $("#upload-practice").hide();
         }
     }
 
-    
+    $("#upload-confused").click(function () {
+        $('#upload-confused').modal({
+                                    backdrop:true,
+                                    keyboard:true,
+                                    show:true,
+        });
+    });
 });
