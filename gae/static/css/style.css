@@ -3,5 +3,10 @@ body {
 }
 .video {
     margin: 0 auto;
-    float: none;
+    height: 600px;
+    width: 800px;
+    display: block;
+}
+.controls {
+  text-align: center;
 }

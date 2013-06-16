@@ -1,9 +1,22 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
-    <div class="span6 video">
-        <iframe width="800" height="600" src="http://www.youtube.com/embed/
-{{youtube_link}}?autoplay=1&amp;cc_load_policy=1" frameborder="0"
-allowfullscreen></iframe>
+<style>body { background-color: #070707; }</style>
+<div class="row">
+  <div class="span9">
+    <iframe class="video" width="800" height="600" src="http://www.youtube.com/embed/{{youtube_link}}?html5=1&amp;autoplay=1&amp;cc_load_policy=1" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <div class="others span3">
+    <div class="controls">
+      <div class="btn btn-warning span2">I'm confused!</div><br><div class="btn btn-success span2" title="watashi, kininarimasu!">I'm curious!</div><br><div class="btn btn-btn-primary span2">I want an example!</div>
     </div>
+    <div class="related-videos">
+    </div>
+  </div>
+</div>
+<script>
+// <![CDATA[
+
+// ]]>
+</script>
 {% endblock %}
