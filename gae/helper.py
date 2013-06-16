@@ -4,37 +4,37 @@ import json
 import time
 
 from google.appengine.ext import ndb
+import logging
 
-SIMPLE_TYPES = (int, long, float, bool, dict, basestring, list)
+SIMPLE_TYPES = (int, long, float, bool, dict, basestring)
 
 def to_json(obj):
-    if obj is None or isinstance(obj, SIMPLE_TYPES):
-        pass
-    elif type(obj) is ndb.Key:
-        obj = str(obj.id())
-    else:
-        obj = to_dict(obj)
-
-    return json.dumps(obj)
+    return json.dumps(to_dict(obj))
 
 def to_dict(model):
-    output = {}
+    if model is None or isinstance(model, SIMPLE_TYPES):
+        return model
+    elif type(model) is ndb.Key:
+        return str(model.id())
+    elif type(model) is list:
+        return map(to_dict, model)
+    elif isinstance(model, datetime.date):
+        # Convert date/datetime to ms-since-epoch ("new Date()").
+        ms = time.mktime(value.utctimetuple())
+        ms += getattr(model, 'microseconds', 0) / 1000
+        return int(ms)
+    elif isinstance(model, ndb.GeoPt):
+        return {'lat': model.lat, 'lon': model.lon}
+    elif isinstance(model, ndb.Model):
+        output = {}
 
-    for key, prop in model.to_dict().items():
-        value = getattr(model, key)
+        for key, prop in model.to_dict().items():
+            value = getattr(model, key)
 
-        if value is None or isinstance(value, SIMPLE_TYPES):
-            output[key] = value
-        elif isinstance(value, datetime.date):
-            # Convert date/datetime to ms-since-epoch ("new Date()").
-            ms = time.mktime(value.utctimetuple())
-            ms += getattr(value, 'microseconds', 0) / 1000
-            output[key] = int(ms)
-        elif isinstance(value, ndb.GeoPt):
-            output[key] = {'lat': value.lat, 'lon': value.lon}
-        elif isinstance(value, ndb.Model):
             output[key] = to_dict(value)
-        else:
-            raise ValueError('cannot encode ' + repr(prop))
 
-    return output
+            
+
+        return output
+    else:
+        raise ValueError('cannot encode ' + repr(prop))

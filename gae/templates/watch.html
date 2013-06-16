@@ -51,9 +51,12 @@
   </div>
   </div>
 </div>
-<script>
-// <![CDATA[
-
-// ]]>
-</script>
+{% endblock %}
+{% block script %}
+    <script>
+        var confused_vpgs = {% if confused_vpgs %} {{confused_vpgs}} {% else %} "" {% endif %};
+        var curious_vpgs = {% if curious_vpgs %} {{curious_vpgs}} {% else %} "" {% endif %};
+        var practice_vpgs = {% if practice_vpgs %} {{practice_vpgs}} {% else %} "" {% endif %};
+    </script>
+    <script src="/static/js/app.js"></script>
 {% endblock %}
