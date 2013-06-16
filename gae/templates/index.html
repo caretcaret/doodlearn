@@ -1,10 +1,15 @@
 {% extends "templates/base.html" %}
 {% block content %}
-      <div class="hero-unit">
-        <h1>"Every person you meet knows something that you don't."</h1>
-        <p>Learn new things from our fun videos for free, and teach others through doodles.</p>
-      </div>
+        <div class="row">
+          <div class="span8">
+            <div id="Welcome">
+              Every person you meet knows something that you don't.
+              <a href="#" class="btn btn-primary btn-large">Get Started Now</a>
 
+            </div>
+          </div>
+        </div>
+        <div class="hero-unit">
       <div class="row videos">
         {% for video in videos %}
         <div class="span3">
@@ -17,5 +22,7 @@
           </a>
         </div>
         {% endfor %}
+      </div>
+    </div>
       </div>
 {% endblock %}

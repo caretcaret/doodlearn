@@ -1,21 +1,44 @@
 {% extends "templates/base.html" %}
 {% block content %}
-       <form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
-            <label> Video Name:</label> <input type = "text" name = "name"> <br />
-	    <label> Description</label> <textarea name = "description" rows="3"></textarea> <br />
-	    <label> Category: </label> <select name = "category">
+       <div class="row">
+            <div class="title">Upload a Video</a></div>
+       </div>
+'
+'       <form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+        <div class="row">
+        <label><div class="field">Video Name: </div></label> 
+        <input type = "text" name = "name"> 
+        </div> <br>
+        <div class="row">
+	    <label><div class="field">Description: </div></label> <textarea name = "description" rows="3"></textarea> <br>
+        </div>
+        <div class="row">
+	    <label><div class="field"> Category: </div></label> <select name = "category">
 	    <option>English</option>
 	    <option>Math</option>
 	    <option>Science</option>
 	    <option>History</option>
 	    <option>Fun</option>
-	    </select> <br />
-	   	<label> Upload Video: </label>
-	    <input type="file" accept="video/*;capture=camcorder" name="video">
-        <br />
-        <label> Upload Thumbnail: </label>
-	    <input type="file" accept="image/*;capture=camera" name="thumbnail">
-        <br />
-        <input type="submit" name="submit" value="Submit">
+	    </select>
+        </div> <br />
+	    <div class="row">
+
+            <label><div class="field"> Upload File: </div></label>
+            <div style="position:relative;">
+        <a class='btn' href='javascript:;'>
+            Choose File...
+            <div id="upload"><input type="file" accept="video/*;capture=camcorder" name="file"></div>
+        </a>
+        <span class='label label-info' id="upload-file-info"></span>
+        </div>
+            
+            <br>
+
+            <label> Upload Thumbnail: </label>
+            <input type="file" accept="image/*;capture=camera" name="thumbnail">
+            <br />
+
+            <input type="submit" name="submit" class="btn btn-small" value="Submit"/>
+        </div>
         </form> 
 {% endblock %}
