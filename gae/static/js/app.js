@@ -133,7 +133,7 @@ $(document).ready(function(){
         if (dynamicCount == practice_vpgs[prId].time){
             $("#upload-practice").show();
             $("#upload-practice").data("vpg", practice_vpgs[prId].id);
-        } else if (dynamicCount == (practice_vpgs[prId].time + 30){
+        } else if (dynamicCount == (practice_vpgs[prId].time + 30)){
             $("#upload-practice").hide();
         }
     }
