@@ -8,6 +8,15 @@ import logging
 
 SIMPLE_TYPES = (int, long, float, bool, dict, basestring)
 
+def key_results(l):
+    result = {}
+    for item in l:
+        result[l.key] = l
+    return result
+
+def unkey_results(d):
+    return [v for (k,v) in d.items()]
+
 def to_json(obj):
     return json.dumps(to_dict(obj))
 

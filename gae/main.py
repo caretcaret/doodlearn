@@ -21,7 +21,7 @@ import os
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
-##from google.appengine.ext import db.GqlQuery
+#from google.appengine.ext import db.GqlQuery
 from google.appengine.ext.webapp import blobstore_handlers
 
 import webapp2
@@ -75,6 +75,7 @@ class ExploreHandler(webapp2.RequestHandler):
         path = 'templates/explore.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
+
 
 class CategoryHandler(webapp2.RequestHandler):
     def get(self, category):
@@ -228,11 +229,22 @@ class LoginHandler(webapp2.RequestHandler):
 
 class ConfusedHandler(webapp2.RequestHandler):
     def get(self):
-        videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'confused' ORDERBY numberUsers DESC LIMIT 20")
-        path = 'templates/index.html'
+        videos = helper.key_results(models.Video.query().fetch())
+        for video in videos:
+            video.confused = 0
+
+        for vpg in models.VideoPointGroup.query():
+            videos[vpg.video].confused += vpg.numberUsers
+
+        videos = helper.unkey_results(videos)
+        videos.sort(key=lambda video:video.confused, reverse=True)
+        videos = videos[:5] #limit to top 5 confused
+
+        path = 'templates/mostconfused.html'
         template = JINJA_ENVIRONMENT.get_template(path)
-        values = {'videos':videoGroups}
-        self.response.write(template.render(values))
+        values = {'videos':videos}
+        self.response.write(template.render(_add_default_values(values)))
+
 
 class PracticeHandler(webapp2.RequestHandler):
     def get(self):
@@ -319,8 +331,8 @@ app = webapp2.WSGIApplication([
     ('/parsevp',ParseVideoPointHandler),
     ('/api/list', APIListHandler),
     ('/explore', ExploreHandler),
-    ('/category/(.*)', CategoryHandler)
-    #('/confused', ConfusedHandler),
+    ('/category/(.*)', CategoryHandler),
+    ('/confused', ConfusedHandler)
     #('/practice', PracticeHandler),
    # ('/curious', CuriousHandler)
 ], debug=True)
