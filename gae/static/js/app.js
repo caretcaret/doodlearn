@@ -1,16 +1,14 @@
 $(document).ready(function(){
     var myPlayer = document.getElementById("video");
-    var user = $("#tags-app").data("user");
     var video = $("#tags-app").data("video");
-    var tag_url = "/";
+    var tag_url = "/parsevp";
 
     //temp
     var d = new Date();
 
     $("#tag-confused").click(function(){
         var time = d.getSeconds();//myPlayer.currentTime();
-        $.getJSON({tag_url, {
-                                user: user,
+        $.getJSON(tag_url, {
                                 video: video,
                                 time: time,
                                 point_type: "confused"
