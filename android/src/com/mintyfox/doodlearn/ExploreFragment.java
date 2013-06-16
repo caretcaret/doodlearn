@@ -43,7 +43,7 @@ public class ExploreFragment extends ListFragment {
 	  // Do something with the data
 		Context context = getActivity();
 		Intent intent = new Intent(context, WatchActivity.class);
-		intent.putExtra("vid_url", vid_urls.get(position));
+		intent.putExtra("vid_url", "http://doodlearn1.appspot.com/serve/" + vid_urls.get(position));
 		startActivity(intent);
 		//Toast.makeText(context, vid_ids.get(position).toString()
 		//		+ vid_urls.get(position), Toast.LENGTH_SHORT).show();

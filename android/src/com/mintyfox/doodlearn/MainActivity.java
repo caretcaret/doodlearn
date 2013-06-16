@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -140,5 +142,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return null;
         }
     }
+    
 
 }
