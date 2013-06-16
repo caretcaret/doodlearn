@@ -10,20 +10,145 @@
             </div>
           </div>
         </div>
-        <div class="hero-unit">
-      <div class="row videos">
-        {% for video in videos %}
-        <div class="span3">
-          <a href="watch/{{ video.key.id() }}">
+
+      <div class="hero-unit">
+        <div class="row-fluid">
+          <div class="carousel slide" id="myCarousel">
+            <div class="carousel-inner">
+              <div class="item active">
+                <ul class="thumbnails">
+
+        {% for video in videos[0:3] %}
+
             {% if video.get_thumbnail_url() %}
-            <img src="{{ video.get_thumbnail_url() }}"/>
+            <li class="span4">
+                        <div class="thumbnail">
+                            <a href="watch/{{ video.key.id() }}"><img src="{{ video.get_thumbnail_url() }}" /></a>
+                        </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+                    </li>
+
             {% else %}
-            <video class="thumbnail" src="{{ video.get_video_url() }}"/>
+            <li class="span4">
+                        <div class="thumbnail">
+                            <video class="thumbnail" src="{{ video.get_video_url() }}"/>
+                        </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+            </li>
             {% endif %}
-          </a>
-        </div>
         {% endfor %}
-      </div>
+        </ul>
+        </div>
+        <div class="item">
+                <ul class="thumbnails">
+        {% for video in videos[3:] %}
+         {% if video.get_thumbnail_url() %}
+            <li class="span4">
+                        <div class="thumbnail">
+                            <a href="watch/{{ video.key.id() }}"><img src="{{ video.get_thumbnail_url() }}" /></a>
+                        </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+                    </li>
+
+            {% else %}
+            <li class="span4">
+                        <div class="thumbnail">
+                            <video class="thumbnail" src="{{ video.get_video_url() }}"/>
+                        </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <a data-slide="prev" href="#myCarousel" class="left carousel-control">‹</a>
+        <a data-slide="next" href="#myCarousel" class="right carousel-control">›</a>
     </div>
-      </div>
+</div>
+</div>
+
 {% endblock %}
+
+
+
+<div class="row-fluid">
+    <div class="carousel slide" id="myCarousel">
+        <div class="carousel-inner">
+          <div class="item active">
+                <ul class="thumbnails">
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb1.jpg" alt="">
+                        </div>
+                        <p>First item<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb2.jpg" alt="">
+                        </div>
+                        <p>This is second<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb3.jpg" alt="">
+                        </div>
+                        <p>Third product<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb4.jpg" alt="">
+                        </div>
+                        <p>And the fourth<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                </ul>
+          </div>
+          <div class="item">
+                <ul class="thumbnails">
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb5.jpg" alt="">
+                        </div>
+                        <p>Another caption<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb6.jpg" alt="">
+                        </div>
+                        <p>Another caption<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb7.jpg" alt="">
+                        </div>
+                        <p>Another caption<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <img src="assets/img/thumb8.jpg" alt="">
+                        </div>
+                        <p>Another caption<br>
+                        <small class="red">$19.99</small><br>
+                        <a href="#" class="btn btn-success">Buy Now</a></p>
+                    </li>
+                </ul>
+          </div>
+        </div>
+        <a data-slide="prev" href="#myCarousel" class="left carousel-control">‹</a>
+        <a data-slide="next" href="#myCarousel" class="right carousel-control">›</a>
+    </div>
+</div>
