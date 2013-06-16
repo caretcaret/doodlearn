@@ -248,7 +248,9 @@ class ParseVideoPointHandler(webapp2.RequestHandler):
             self.response.write(json.dumps(videoPointGroup.video.get_thumbnail_url()))
 
         video_point.put()
-        self.response.write(json.dumps({'response' : 'error'}))
+        # dummy response for now
+        self.response.write(json.dumps({'thumbnail' : '/serve/a2zKdQo9BFmySP0qxF0vsw==',
+                                        'url' : 'http://localhost:8080/watch/6261168964370432'}))
 
 class APIListHandler(webapp2.RequestHandler):
     def get(self):

@@ -6,12 +6,26 @@ $(document).ready(function(){
 
     $("#tag-confused").click(function(){
         var time = myPlayer.currentTime();
+        var button = $(this);
         $.getJSON(tag_url, {
                                 video: video,
                                 time: time,
                                 point_type: "confused"
         }, function(data) { 
             console.log(data);
+            button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Need some help? <button type="button" class="close">×</button>',
+                content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
+                html: true
+            });
+
+            button.popover('show');
+
+            $('.close').click(function() {
+                button.popover('hide');
+            });
         });
     });
 
