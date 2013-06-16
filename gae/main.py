@@ -46,7 +46,11 @@ def _add_default_values(values):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        values = {'videos': ['3MqYE2UuN24', 'IOYyCHGWJq4', 'KIbkoop4AYE']}
+
+        videos = models.Video.query().fetch(limit=20)
+
+        # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
+        values = {'videos' : videos}
         path = 'templates/index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
@@ -95,15 +99,17 @@ class UploadFormHandler(webapp2.RequestHandler):
 
 class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
-    upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
-    blob_info = upload_files[0]
-
     video = models.Video()
     video.name = self.request.get('name')
     video.description = self.request.get('description')
     video.category = self.request.get('category')
-    video.video_file = blob_info.key()
     video.user = users.get_current_user()
+
+    video_blob_info = self.get_uploads('video')[0]  # 'video' is file upload field in the form
+    video.video_file = video_blob_info.key()
+
+    thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
+    video.thumbnail_file = thumbnail_blob_info.key()
 
     parent = self.request.get('parent')
     if parent:

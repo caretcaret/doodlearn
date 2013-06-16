@@ -7,6 +7,12 @@ video {
     width: 800px;
     display: block;
 }
+
+.thumbnail {
+  height: 100%;
+  width: 100%;
+}
+
 .others {
   position: relative;
 }

@@ -8,7 +8,13 @@
       <div class="row videos">
         {% for video in videos %}
         <div class="span3">
-          <a href="watch/{{video}}"><img src="http://img.youtube.com/vi/{{video}}/hqdefault.jpg"/></a>
+          <a href="watch/{{ video.key.id() }}">
+            {% if video.get_thumbnail_url() %}
+            <img src="{{ video.get_thumbnail_url() }}"/>
+            {% else %}
+            <video class="thumbnail" src="{{ video.get_video_url() }}"/>
+            {% endif %}
+          </a>
         </div>
         {% endfor %}
       </div>
