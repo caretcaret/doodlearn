@@ -12,7 +12,7 @@ $(document).ready(function(){
     $("#upload-curious").hide();
     $("#upload-practice").hide();
 
-    //var dynamicTimer = setInterval(dynamicUpload, 1000);
+    var dynamicTimer = setInterval(dynamicUpload, 1000);
 
     $("#tag-confused").click(function(){
         var time = myPlayer.currentTime();
@@ -21,7 +21,6 @@ $(document).ready(function(){
                                 video: video,
                                 time: time,
                                 point_type: "confused"
-<<<<<<< Updated upstream
         }, function(data) { 
             console.log(data);
             if (data.url) {
@@ -47,9 +46,6 @@ $(document).ready(function(){
                 button.popover('hide');
             });
         });
-=======
-        }).always(function(data){ alert(data);});
->>>>>>> Stashed changes
     });
 
     $("#tag-curious").click(function(){
@@ -138,7 +134,8 @@ $(document).ready(function(){
             $("#upload-practice").show();
             $("#upload-practice").data("vpg", practice_vpgs[prId].id);
         } else if (dynamicCount == (practice_vpgs[prId].time + 30)){
-            $("#upload-practice").hide();
+            	prId++;
+		$("#upload-practice").hide();
         }
     }
 
