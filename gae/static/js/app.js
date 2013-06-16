@@ -157,14 +157,14 @@ $(document).ready(function(){
         $.getJSON(upload_url, function(data) {
             console.log(data);
             var header = '<form action="' + data + '" method="POST" enctype="multipart/form-data"';
-            var name = '<div class="row"> <label> <div class="field"> Video Name: </div></label><input type="text" name="name"></div><br>';
-            var description = '<div class="row"><label><div class="field"> Description: </div></label> <textarea name="description" rows="3"></textarea></div><br>';
-            var file = '<div class="row"><label><div class="field"> Upload File </div></label>';
+            var name = '<div> <label> <div class="field-p"> Video Name: </div></label><input type="text" name="name"></div><br>';
+            var description = '<div><label><div class="field-p"> Description: </div></label> <textarea name="description" rows="3"></textarea></div><br>';
+            var file = '<div><label><div class="field-p"> Upload File </div></label>';
             var file_1 = '<span><input type="file" style="visibility:hidden; width: 1px;" id=' + "'${multipartFilePath}'" + ' name="video" onchange="$(this).parent().find('+ "'span'" +').html($(this).val().replace('+ "'C:\\fakepath\\'" + ', '+ "''" + '))"  />'; 
             var file_2 = '<input class="btn btn-small" type="button" value="Upload Video.." name="video" onclick="$(this).parent().find('+ "'input[type=file]'" + ').click();" accept="video/*;capture=camcorder"/>';
             var file_3 = '&nbsp;<span class="badge badge-important" ></span></span></div><br>';
-            var vpg_f = '<input type="hidden" name="vpg_id" value="' + vpg + '">';
-            var submit_f = '<div class="row"><input type="submit" name="submit" class="btn btn-primary btn-large" value="Submit"/>';
+            var vpg_f = '<input type="hidden" name="vpg_id" value="' + vpg + '"><br>';
+            var submit_f = '<div><input type="submit" name="submit" class="btn btn-primary btn-large" value="Submit"/>';
             var form = header + name + description + file + file_1 + file_2 + file_3 + vpg_f + submit_f;
             button.popover({
                 placement: 'left',
@@ -178,6 +178,7 @@ $(document).ready(function(){
 
             $('.close').click(function() {
                 button.popover('hide');
+                myPlayer.play();
             });
         });
     });
