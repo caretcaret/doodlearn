@@ -24,25 +24,32 @@
 	    <div class="row">
 
             <label><div class="field"> Upload File: </div></label>
-            <div style="position:relative;">
-        <a class='btn' href='javascript:;'>
-            Choose File...
-            <div class="upload"><input type="file" accept="video/*;capture=camcorder" name="video"></div>
-        </a>
-        <span class='label label-info' id="upload-file-info"></span>
-        </div>
+
+            <span>
+            <input type="file" 
+            style="visibility:hidden; width: 1px;" 
+            id='${multipartFilePath}' name="video"  
+            onchange="$(this).parent().find('span').html($(this).val().replace('C:\\fakepath\\', ''))"  /> <!-- Chrome security returns 'C:\fakepath\'  -->
+            <input class="btn btn-small" type="button" value="Upload Video.." name="video" onclick="$(this).parent().find('input[type=file]').click();" accept="video/*;capture=camcorder"/> <!-- on button click fire the file click event -->
+            &nbsp;
+            <span class="badge badge-important" ></span>
+            </span>
         </div>
             
             <br>
         <div class="row">
-            <label><div class="field"> Upload Thumbnail: </div></label>
-            <div style="position:relative;">
-            <a class='btn' href='javascript:;'>
-            Choose File...
-            <div class="upload"><input type="file" accept="image/*;capture=camera" name="thumbnail"></div>
-        </a>
-        <span class='label label-info' id="upload-file-info"></span>
-        </div>
+            <label><div class="field"> Upload Thumbnail (optional): </div></label>
+
+            <span>
+            <input  type="file" 
+            style="visibility:hidden; width: 1px;" 
+            id='${multipartFilePath}' name="thumbnail"  
+            onchange="$(this).parent().find('span').html($(this).val().replace('C:\\fakepath\\', ''))"  /> <!-- Chrome security returns 'C:\fakepath\'  -->
+            <input class="btn btn-small" type="button" value="Upload Image.." name="thumbnail" onclick="$(this).parent().find('input[type=file]').click();" accept="image/*;capture=camera"/> <!-- on button click fire the file click event -->
+            &nbsp;
+            <span  class="badge badge-important" ></span>
+            </span>
+
     </div>
 
             <br>
