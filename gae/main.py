@@ -162,12 +162,15 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
         thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
         video.thumbnail_file = thumbnail_blob_info.key()
 
-    parent = self.request.get('parent')
+    parent = self.request.get('parent_video')
     if parent:
-        video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
+        video.parent_video = ndb.Key(models.Video, parent)
 
     video.put()
-
+    videoPointGroup = models.VideoPointGroup.get_by_id(int(self.request.get('vpg_id')))
+    
+    videoPointGroup.resolved = video.key
+    videoPointGroup.put()
     if self.request.get('noredirect'):
         result = {'video_id' : str(video.key.id()),
                     'video_url' : video.get_video_url()}
@@ -310,15 +313,15 @@ class ParseVideoPointHandler(webapp2.RequestHandler):
 
         if videoPointGroup.resolved:
             video_point.resolved = videoPointGroup.resolved
-            video_thumbnail = videoPointGroup.video.get_thumbnail_url()
-            video_url = videoPointGroup.video.get_video_url()
+            video_thumbnail = videoPointGroup.video.get().get_thumbnail_url()
+            video_url = videoPointGroup.video.get().get_video_url()
             self.response.write(json.dumps({'thumbnail': video_thumbnail,
                                             'url': video_url}))
 
         video_point.put()
         # dummy response for now
-        self.response.write(json.dumps({'thumbnail' : '/serve/a2zKdQo9BFmySP0qxF0vsw==',
-            'url' : '/watch/626116896437'}))
+        #self.response.write(json.dumps({'thumbnail' : 'video_th',
+        #    'url' : '/watch/626116896437'}))
 
 class APIListHandler(webapp2.RequestHandler):
     def get(self):
