@@ -240,7 +240,7 @@ class ConfusedHandler(webapp2.RequestHandler):
 
         videos = helper.unkey_results(videos)
         videos.sort(key=lambda video:video.confused, reverse=True)
-        videos = videos[:5] #limit to top 5 confused
+        videos = videos[:6] #limit to top 5 confused
 
         path = 'templates/mostconfused.html'
         template = JINJA_ENVIRONMENT.get_template(path)
