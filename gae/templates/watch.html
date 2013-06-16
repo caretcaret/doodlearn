@@ -4,6 +4,14 @@
 <style>body { background-color: #070707; }</style>
 <div class="row"><div class="watch_title">{{ video.name }}</div></div>
 <div class="row"><div class="watch_desc">{{ video.description }}</div></div>
+<div class="row"><center>
+<div class="controls" id="tags-app" data-video="{{video.id}}">
+        <div class="tag_align">
+        <div class="span2"><div class="btn btn-danger btn-large span2" id="tag-confused">I'm confused!</div></div>
+        <div class="span2"><div class="btn btn-success btn-large span2" id="tag-curious">I'm curious!</div></div>
+        <div class="span2"><div class="btn btn-info btn-large span2" id="tag-practice">I want an example!</div></div></div>
+    </div></center>
+  </div><br><br><br>
 <div class="row">
   <div class="span9">
     <video src="{{ video.url }}" id="video" class="video-js vjs-default-skin" controls preload="auto" autoplay>
@@ -11,25 +19,20 @@
     </video>
   </div>
   <div class="others span3">
-    <div class="controls" id="tags-app" data-video="{{video.id}}">
-        <div class="row"><div class="btn btn-danger btn-large span2" id="tag-confused">I'm confused!</div></div>
-        <div class="row"><div class="btn btn-success btn-large span2" id="tag-curious">I'm curious!</div></div>
-        <div class="row"><div class="btn btn-info btn-large span2" id="tag-practice">I want an example!</div></div>
+    <div class="controls-h" id="upload-app" data-video="{{video.id}}">
+        <div class="row"><div class="btn btn-warning btn-large span2" id="upload-confused">
+            <i class="icon-large icon-white icon-plus"></i> Help the confused
+        </div></div>
+        <div class="row"><div class="btn btn-purple btn-large span2" id="upload-curious">
+            <i class="icon-large icon-white icon-plus"></i> Inspire the curious
+        </div></div>
+        <div class="row"><div class="btn btn-green btn-large span2" id="upload-practice">
+            <i class="icon-large icon-white icon-plus"></i> Give practice
+        </div></div>
     </div>
     <div class="related-videos">
     </div>
   </div>
-    <div class="controls-h" id="upload-app" data-video="{{video.id}}">
-        <div class="btn btn-warning btn-large span2" id="upload-confused">
-            <i class="icon-large icon-white icon-plus"></i> Help the confused
-        </div><br>
-        <div class="btn btn-purple btn-large span2" id="upload-curious">
-            <i class="icon-large icon-↪white icon-plus"></i> Inspire the curious
-        </div><br>
-        <div class="btn btn-green btn-large span2" id="upload-practice">
-            <i class="icon-large icon-↪white icon-plus"></i> Give practice
-        </div><br>
-    </div>
   </div>
 </div>
 <script>
