@@ -20,9 +20,25 @@
   </div>
   <div class="others span3">
     <div class="controls-h" id="upload-app" data-video="{{video.id}}">
-        <div class="row"><div class="btn btn-warning btn-large span2" id="upload-confused">
+        <div class="row"><div class="btn btn-warning btn-large span2" id="upload-confused" data-toggle = "modal" data-target = "#hi">
             <i class="icon-large icon-white icon-plus"></i> Help the confused
-        </div></div>
+        </div>
+	
+	<div class="modal hide fade" id = "hi" >
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h3>Modal header</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p>One fine body…</p>
+	  </div>
+	  <div class="modal-footer">
+	    <a href="#" class="btn">Close</a>
+	    <a href="#" class="btn btn-primary">Submit</a>
+	  </div>
+	</div>
+
+	</div>
         <div class="row"><div class="btn btn-purple btn-large span2" id="upload-curious">
             <i class="icon-large icon-white icon-plus"></i> Inspire the curious
         </div></div>
