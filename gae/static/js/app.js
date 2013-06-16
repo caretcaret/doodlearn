@@ -1,10 +1,8 @@
 $(document).ready(function(){
-    var myPlayer = _V_("video");
+    var myPlayer = videojs("video",{"controls":true, "autoplay":true, "preload":true});
+    myPlayer.dimensions(840,480);
     var video = $("#tags-app").data("video");
     var tag_url = "/parsevp";
-
-    //temp
-    var d = new Date();
 
     $("#tag-confused").click(function(){
         var time = myPlayer.currentTime();
