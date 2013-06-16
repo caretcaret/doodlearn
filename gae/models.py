@@ -20,7 +20,7 @@ class VideoPoint(ndb.Model):
     user = ndb.UserProperty(required=True)
     video = ndb.KeyProperty(kind='Video', required=True)
     # represents the time in the video!
-    time = ndb.TimeProperty(required=True)
+    time = ndb.IntegerProperty(required=True)
     resolved = ndb.KeyProperty(kind='Video')
 
     def _validate_point_type(prop, value):
@@ -32,7 +32,7 @@ class VideoPoint(ndb.Model):
 
 class VideoPointGroup(ndb.Model):
 	video = ndb.KeyProperty(kind='Video', required=True)
-	time = ndb.TimeProperty(required=True)
+	time = ndb.IntegerProperty(required=True)
 	resolved = ndb.KeyProperty(kind='Video')
 	numberUsers = ndb.IntegerProperty(required=True)
 	def _validate_point_type(prop, value):

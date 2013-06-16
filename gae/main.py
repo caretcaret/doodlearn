@@ -28,6 +28,7 @@ import helper
 import models
 import jinja2
 import urllib
+import json
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -69,7 +70,7 @@ class CreateVideoPointHandler(webapp2.RequestHandler):
     def post(self):
         video_point = models.VideoPoint()
         video_point.user = self.request.get('user')
-        video_point.video = ndb.Key(models.VideoPoint, int(self.request.get('video')))
+        video_point.video = ndb.Key(models.Video, int(self.request.get('video')))
         video_point.time = self.request.get('time')
         video_point.point_type = self.request.get('point_type')
         video_point.put()
@@ -175,6 +176,40 @@ class CuriousHandler(webapp2.RequestHandler):
 		values = {'videos':videoGroups}
 		self.response.write(template.render(values))	
 '''
+
+class ParseVideoPoint(webapp2.RequestHandler):
+	def post(self):
+		params = self.request.get("data")
+		
+		jsonDict = json.loads(params);
+		
+		videoPointGroup = models.VideoPointGroup()
+		
+		halfMinute = jsonDict['time'] / 30;
+
+		q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(jsonDict['video'])), models.VideoPointGroup.time == halfMinute)
+
+		if not q.hasNext() :
+			videoPointGroup.video = ndb.Key(models.Video, int(jsonDict['video']))
+			videoPointGroup.time = halfMinute
+			videoPointGroup.numberUsers = 1
+			videoPointGroup.point_type = jsonDict['point_type']
+						
+		else: 
+			videoPointGroup = q.next()
+			videoPointGroup.numberUsers +=1;
+			videoPointGroup.put()
+			return videoPointGroup.video
+
+		#always create videopoint
+		video_point = models.VideoPoint()
+		video_point.user = jsonDict['user']
+		video_point.video = ndb.Key(models.Video, int(jsonDict['video']))
+		video_point.time = jsonDict['time']
+		video_point.point_type = jsonDict['point_type']
+		video_point.put()
+	
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/create_video_point', CreateVideoPointHandler),
