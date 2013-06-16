@@ -1,4 +1,4 @@
-.navbar{
+/*.navbar{
    background:transparent;
 margin:10px 0px 10px 0px;
 }
@@ -16,7 +16,7 @@ border-right:0px !important;
 }
 
 .navbar .btn{
-/*background:#cc412a !important;  */
+background:#cc412a !important; 
 font-size:13px;
 padding:4px 10px;
 }
@@ -29,15 +29,15 @@ opacity: 0.5;
 border-top-color:#fff !important;
 border-bottom-color:#fff !important;
 }
-/*
+
 .navbar .brand{
 color:#fff !important;
 text-shadow:none !important;
 }
-*/
+
 .navbar .nav{
-/*border-left:1px solid #cc412a;
-border-right:1px solid #e75f48;*/
+border-left:1px solid #cc412a;
+border-right:1px solid #e75f48;
 }
 
 .navbar .nav > li > a{
@@ -108,11 +108,11 @@ transition:background 1s ease;
 .dropdown-menu::after, .dropdown-menu::before{
 border:none !important;
 }
-
+*/
 
 /* For Responsive design */
 
-
+/*
 @media (max-width: 767px){
    .navbar{
    margin-left:-20px;
@@ -140,3 +140,4 @@ border:none !important;
    border-bottom:none !important;
    }
 }
+*/
