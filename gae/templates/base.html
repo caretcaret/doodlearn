@@ -2,18 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Doodlearn</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
     <link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
+    <link href="static/css/style.css" rel="stylesheet">
     <link href="static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <script src="http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3"></script>
 
@@ -40,11 +36,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">doodlearn</a>
+          <a class="brand" href="/">doodlearn</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">New doodle</a></li>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/new">New doodle</a></li>
+              <li>
+                <form action="/search" class="navbar-search pull-right">
+                  <input type="text" name="search" class="search-query" placeholder="Search">
+                <form>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -52,38 +52,13 @@
     </div>
 
     <div class="container">
-
-      <div class="hero-unit">
-        <h1>"Every person you meet knows something that you don't."</h1>
-        <p>Learn new things from our fun videos for free, and teach others through doodles.</p>
-      </div>
-
-      <div class="row videos">
-        {% for video in videos %}
-        <div class="span3">
-          <a href="http://youtube.com/watch?v={{video}}"><img src="http://img.youtube.com/vi/{{video}}/hqdefault.jpg"/></a>
-        </div>
-        {% endfor %}
-      </div>
-
+        {% block content %}
+        {% endblock %}
     </div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="static/bootstrap/js/jquery.js"></script>
-    <script src="static/bootstrap/js/bootstrap-transition.js"></script>
-    <script src="static/bootstrap/js/bootstrap-alert.js"></script>
-    <script src="static/bootstrap/js/bootstrap-modal.js"></script>
-    <script src="static/bootstrap/js/bootstrap-dropdown.js"></script>
-    <script src="static/bootstrap/js/bootstrap-scrollspy.js"></script>
-    <script src="static/bootstrap/js/bootstrap-tab.js"></script>
-    <script src="static/bootstrap/js/bootstrap-tooltip.js"></script>
-    <script src="static/bootstrap/js/bootstrap-popover.js"></script>
-    <script src="static/bootstrap/js/bootstrap-button.js"></script>
-    <script src="static/bootstrap/js/bootstrap-collapse.js"></script>
-    <script src="static/bootstrap/js/bootstrap-carousel.js"></script>
-    <script src="static/bootstrap/js/bootstrap-typeahead.js"></script>
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
   </body>
 </html>

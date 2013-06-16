@@ -1,0 +1,13 @@
+{% extends "templates/base.html" %}
+{% block content %}
+    {% if videos %}
+        <ul>
+            {% for v in videos %}
+                <li> {{v.name}}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        No videos found.
+    {% endif %}
+{% endblock %}
+

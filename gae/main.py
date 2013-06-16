@@ -33,9 +33,15 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        values = {'videos': ['3MqYE2UuN24', 'IOYyCHGWJq4', 'KIbkoop4AYE']
-        }
-        path = 'index.html'
+        values = {'videos': ['3MqYE2UuN24', 'IOYyCHGWJq4', 'KIbkoop4AYE']}
+        path = 'templates/index.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(values))
+
+class WatchHandler(webapp2.RequestHandler):
+    def get(self, video):
+        values = {'youtube_link': video}
+        path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
 
@@ -116,6 +122,21 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     blob_info = blobstore.BlobInfo.get(resource)
     self.send_blob(blob_info)
 
+class SearchHandler(webapp2.RequestHandler):
+    def get(self):
+        self.post()
+
+    def post(self):
+        query = self.request.get('search')
+        if not query:
+            query = ''
+        videos_q = models.Video.gql("WHERE category = :1", query)
+        videos = list(videos_q)
+        values = {'videos': videos}
+        path = 'templates/search.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(values))
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/create', CreateVideoHandler),
@@ -123,5 +144,7 @@ app = webapp2.WSGIApplication([
     ('/get_video', GetVideoHandler),
     ('/videos', VideoHandler),
     ('/upload', UploadHandler),
-    ('/serve/([^/]+)?', ServeHandler)
+    ('/serve/([^/]+)?', ServeHandler),
+    ('/search', SearchHandler),
+    ('/watch/(.+)', WatchHandler)
 ], debug=True)
