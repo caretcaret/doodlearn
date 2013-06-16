@@ -18,49 +18,52 @@
               <div class="item active">
                 <ul class="thumbnails">
 
-        {% for video in videos[0:3] %}
-
-            {% if video.get_thumbnail_url() %}
+        {% for video in videos_sliced[0:1] %}
+            {% for vid in video %}
+            {% if vid.get_thumbnail_url() %}
             <li class="span4">
                         <div class="thumbnail">
-                            <a href="watch/{{ video.key.id() }}"><img src="{{ video.get_thumbnail_url() }}" /></a>
+                            <a href="watch/{{ vid.key.id() }}"><img src="{{ vid.get_thumbnail_url() }}" /></a>
                         </div>
-                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+                        <a href="watch/{{ vid.key.id() }}"><div class="slider_title">{{ vid.name }}</div></a>
                     </li>
 
             {% else %}
             <li class="span4">
                         <div class="thumbnail">
-                            <video class="thumbnail" src="{{ video.get_video_url() }}"/>
+                            <video class="thumbnail" src="{{ vid.get_video_url() }}"/>
                         </div>
-                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+                        <a href="watch/{{ vid.key.id() }}"><div class="slider_title">{{ vid.name }}</div></a>
             </li>
             {% endif %}
         {% endfor %}
+        {%endfor %}
         </ul>
         </div>
+        {% for video in videos_sliced[1:] %}
         <div class="item">
                 <ul class="thumbnails">
-        {% for video in videos[3:] %}
-         {% if video.get_thumbnail_url() %}
+          {% for vid in video %}
+            {% if vid.get_thumbnail_url() %}
             <li class="span4">
                         <div class="thumbnail">
-                            <a href="watch/{{ video.key.id() }}"><img src="{{ video.get_thumbnail_url() }}" /></a>
+                            <a href="watch/{{ vid.key.id() }}"><img src="{{ vid.get_thumbnail_url() }}" /></a>
                         </div>
-                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+                        <a href="watch/{{ vid.key.id() }}"><div class="slider_title">{{ vid.name }}</div></a>
                     </li>
 
             {% else %}
             <li class="span4">
                         <div class="thumbnail">
-                            <video class="thumbnail" src="{{ video.get_video_url() }}"/>
+                            <video class="thumbnail" src="{{ vid.get_video_url() }}"/>
                         </div>
-                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
+                        <a href="watch/{{ vid.key.id() }}"><div class="slider_title">{{ vid.name }}</div></a>
             </li>
             {% endif %}
             {% endfor %}
             </ul>
           </div>
+          {% endfor %}
         </div>
         <a data-slide="prev" href="#myCarousel" class="left carousel-control">‹</a>
         <a data-slide="next" href="#myCarousel" class="right carousel-control">›</a>
