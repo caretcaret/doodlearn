@@ -205,29 +205,28 @@ class CuriousHandler(webapp2.RequestHandler):
 		self.response.write(template.render(values))	
 '''
 
-class ParseVideoPoint(webapp2.RequestHandler):
+class ParseVideoPointHandler(webapp2.RequestHandler):
 	def post(self):
 		params = self.request.get("data")
 		
 		jsonDict = json.loads(params);
-		
-		videoPointGroup = models.VideoPointGroup()
 		
 		halfMinute = jsonDict['time'] / 30;
 
 		q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(jsonDict['video'])), models.VideoPointGroup.time == halfMinute)
 
 		if not q.hasNext() :
+			videoPointGroup = models.videoPointGroup()
 			videoPointGroup.video = ndb.Key(models.Video, int(jsonDict['video']))
 			videoPointGroup.time = halfMinute
 			videoPointGroup.numberUsers = 1
 			videoPointGroup.point_type = jsonDict['point_type']
+			videoPointGroup.put()
 						
 		else: 
 			videoPointGroup = q.next()
 			videoPointGroup.numberUsers +=1;
 			videoPointGroup.put()
-			return videoPointGroup.video
 
 		#always create videopoint
 		video_point = models.VideoPoint()
@@ -235,7 +234,13 @@ class ParseVideoPoint(webapp2.RequestHandler):
 		video_point.video = ndb.Key(models.Video, int(jsonDict['video']))
 		video_point.time = jsonDict['time']
 		video_point.point_type = jsonDict['point_type']
+		
+		if videoPointGroup.resolved:
+			video_point.resolved = videoPointGroup.resolved
+			video_point.put()
+			return videoPointGroup.video.get_thumbnail_url()
 		video_point.put()
+		return None
 	
 
 app = webapp2.WSGIApplication([
@@ -247,7 +252,8 @@ app = webapp2.WSGIApplication([
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
     ('/search/ajax', SearchAjaxHandler),
-    ('/watch/(\d+)', WatchHandler)
+    ('/watch/(\d+)', WatchHandler),
+	('/parsevp',ParseVideoPointHandler)
     #('/confused', ConfusedHandler),
     #('/practice', PracticeHandler),
    # ('/curious', CuriousHandler)
