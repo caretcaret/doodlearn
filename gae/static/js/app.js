@@ -14,8 +14,8 @@ $(document).ready(function(){
             url: tag_url,
             dataType: "json",
             async: false,
-            data:JSON.stringify({'user':user,
-                                 'video':video,
+            data:JSON.stringify({'user':'Anon',
+                                 'video':'6401356696911872',
                                  'time':time,
                                  'point_type':"confused"}),
             success: function(data){
