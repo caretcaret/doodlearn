@@ -14,9 +14,14 @@
   </div><br><br><br>
 <div class="row">
   <div class="span9">
+    {% if mobile %}
+    <video src="{{ video.url }}" controls>
+    </video>
+    {% else %}
     <video src="{{ video.url }}" id="video" class="video-js vjs-default-skin" controls preload="auto" autoplay>
     <div class="title">Your browser does not support the <code>video</code> element.</div>
     </video>
+    {% endif %}
   </div>
   <div class="others span3">
     <div class="controls-h" id="upload-app" data-video="{{video.id}}">

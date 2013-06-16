@@ -23,8 +23,7 @@ public class WatchActivity extends Activity {
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		savedLocation = 0;
 		Intent intent = getIntent();
-		String vid_url = intent.getStringExtra("vid_url");
-		String url = "http://doodlearn1.appspot.com/serve/" + vid_url; // your URL here
+		String url = intent.getStringExtra("vid_url"); // your URL here
 		setContentView(R.layout.activity_watch);
 		videoView = (VideoView) findViewById(R.id.videoView);
 		try {
