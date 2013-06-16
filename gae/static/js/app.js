@@ -12,7 +12,7 @@ $(document).ready(function(){
     $("#upload-curious").hide();
     $("#upload-practice").hide();
 
-    var dynamicTimer = setInterval(dynamicUpload, 1000);
+    //var dynamicTimer = setInterval(dynamicUpload, 1000);
 
     $("#tag-confused").click(function(){
         var time = myPlayer.currentTime();
