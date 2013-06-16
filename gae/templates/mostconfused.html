@@ -1,18 +1,20 @@
 {% extends "templates/base.html" %}
 {% block content %}
 <div class="title">{{ page_title }}</div>
-<div class="row">
-  {% for video in videos %}
-  <div class="span4">
-    <div class="hero-unit">
-    <a href="{{ video.get_view_url() }}">
-      <div class="explore_title">{{ video.name }}:</div>
-      <div class="num_confused">{{ video.confused }} confused</div>
-      <img class="explore_thumbnail" src="{{ video.get_thumbnail_url() }}"  />
-    </a>
-  </div>
+<div class="hero-unit">
+  {% for v in videos %}
+    <div class="media">
+        <a class="pull-left" href="/watch/{{ v.key.id() }}">
+            <img class="search_thumbnail" src="{{ v.get_thumbnail_url() }}" />
+        </a>
+        <div class="media-body">
+            <a href="/watch/{{ v.key.id() }}"><h4 class="media-heading"><div class="search_title">{{ v.name }}</div></h4></a>
+            <p><div class="search_description">{{ v.description }}</div></p>
+        </div>
+    
 </div>
   {% endfor %}
+    </div>
 
 
 {% endblock %}
