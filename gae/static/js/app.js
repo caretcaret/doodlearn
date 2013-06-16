@@ -79,4 +79,12 @@ $(document).ready(function(){
         });
     });
 
+    $("#upload-confused").click(function(){
+    });
+
+    $("#upload-curious").click(function(){
+    });
+
+    $("#upload-practice").click(function(){
+    });
 });
