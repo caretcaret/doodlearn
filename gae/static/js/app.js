@@ -70,7 +70,7 @@ $(document).ready(function(){
             });
 	    } else {
             button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Are you curious? <button type="button" class="close">×</button>',
                 content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
@@ -95,7 +95,7 @@ $(document).ready(function(){
             console.log(data);
 	   if(data.url) {
             button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Need some practice? <button type="button" class="close">×</button>',
                 content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
@@ -103,7 +103,7 @@ $(document).ready(function(){
             });
 	  } else {
             button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Need some practice? <button type="button" class="close">×</button>',
                 content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
