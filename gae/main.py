@@ -101,7 +101,18 @@ class WatchHandler(webapp2.RequestHandler):
         values = {'video': video}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
-        self.response.write(template.render(_add_default_values(values)))
+	
+        q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(video_id)), models.VideoPointGroup.point_type == 'confused')
+	confused_vpgs = list(q.order(models.VideoPointGroup.time))
+	
+        q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(video_id)), models.VideoPointGroup.point_type == 'curious')
+	curious_vpgs = list(q.order(models.VideoPointGroup.time))
+
+	self.response.write(template.render(_add_default_values(values)))
+        q = models.VideoPointGroup.query(models.VideoPointGroup.video ==  ndb.Key(models.Video, int(video_id)), models.VideoPointGroup.point_type == 'practice')
+	practice_vpgs = list(q.order(models.VideoPointGroup.time))
+	values = {'video' : video, 'confused_vpgs' : confused_vpgs, 'curious_vpgs' : curious_vpgs, 'practice_vpgs' : practice_vpgs}
+	self.response.write(template.render(_add_default_values(values)))
 
 class CreateVideoPointHandler(webapp2.RequestHandler):
     def get(self):
