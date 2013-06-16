@@ -12,6 +12,8 @@ $(document).ready(function(){
                                 video: video,
                                 time: time,
                                 point_type: "confused"
+        }, function(data) { 
+            console.log(data);
         });
     });
 
@@ -33,6 +35,8 @@ $(document).ready(function(){
                                 video: video,
                                 time: time,
                                 point_type: "practice"
+        }, function(data) { 
+            console.log(data);
         });
     });
 

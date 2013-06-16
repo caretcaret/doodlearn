@@ -182,73 +182,73 @@ class LoginHandler(webapp2.RequestHandler):
         self.response.write(template.render(_add_default_values(values)))
 '''
 class ConfusedHandler(webapp2.RequestHandler):
-	def get(self):
-		videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'confused' ORDERBY numberUsers DESC LIMIT 20")
-		path = 'templates/index.html'
-		template = JINJA_ENVIRONMENT.get_template(path)
-		values = {'videos':videoGroups}
-		self.response.write(template.render(values))	
+    def get(self):
+        videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'confused' ORDERBY numberUsers DESC LIMIT 20")
+        path = 'templates/index.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        values = {'videos':videoGroups}
+        self.response.write(template.render(values))    
 
 class PracticeHandler(webapp2.RequestHandler):
-	def get(self):
-		videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'practice' ORDERBY numberUsers DESC LIMIT 20")
-		path = 'templates/index.html'
-		template = JINJA_ENVIRONMENT.get_template(path)
-		values = {'videos':videoGroups}
-		self.response.write(template.render(values))	
+    def get(self):
+        videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'practice' ORDERBY numberUsers DESC LIMIT 20")
+        path = 'templates/index.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        values = {'videos':videoGroups}
+        self.response.write(template.render(values))    
 
 class CuriousHandler(webapp2.RequestHandler):
-	def get(self):
-		videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'curious' ORDERBY numberUsers DESC LIMIT 20")
-		path = 'templates/index.html'
-		template = JINJA_ENVIRONMENT.get_template(path)
-		values = {'videos':videoGroups}
-		self.response.write(template.render(values))	
+    def get(self):
+        videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'curious' ORDERBY numberUsers DESC LIMIT 20")
+        path = 'templates/index.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        values = {'videos':videoGroups}
+        self.response.write(template.render(values))    
 '''
 
 class ParseVideoPointHandler(webapp2.RequestHandler):
-	
-	def get(self):
-		self.post()
+    
+    def get(self):
+        self.post()
 
-	def post(self):
-		params = self.request.get("data")
-		video = self.request.get("video")
-		
-		time = self.request.get("time")
-		time = int(round(float(time)))
-		user = users.get_current_user()	
-		point_type = self.request.get("point_type")	
-		halfMinute = time - (time % 30)
+    def post(self):
+        params = self.request.get("data")
+        video = self.request.get("video")
 
-		q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(video)), models.VideoPointGroup.time == halfMinute)
+        time = self.request.get("time")
+        time = int(round(float(time)))
+        user = users.get_current_user()    
+        point_type = self.request.get("point_type")    
+        halfMinute = time - (time % 30)
 
-		if not q.get() :
-			videoPointGroup = models.VideoPointGroup()
-			videoPointGroup.video = ndb.Key(models.Video, int(video))
-			videoPointGroup.time = halfMinute
-			videoPointGroup.numberUsers = 1
-			videoPointGroup.point_type = point_type
-			videoPointGroup.put()
-						
-		else: 
-			videoPointGroup = q.get()
-			videoPointGroup.numberUsers +=1;
-			videoPointGroup.put()
+        q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(video)), models.VideoPointGroup.time == halfMinute)
 
-		#always create videopoint
-		video_point = models.VideoPoint()
-		video_point.user = user
-		video_point.video = ndb.Key(models.Video, int(video))
-		video_point.time = time
-		video_point.point_type = point_type
-		
-		if videoPointGroup.resolved:
-			video_point.resolved = videoPointGroup.resolved
-			video_point.put()
-			return videoPointGroup.video.get_thumbnail_url()
-		video_point.put()
-		return None
+        if not q.get() :
+            videoPointGroup = models.VideoPointGroup()
+            videoPointGroup.video = ndb.Key(models.Video, int(video))
+            videoPointGroup.time = halfMinute
+            videoPointGroup.numberUsers = 1
+            videoPointGroup.point_type = point_type
+            videoPointGroup.put()
+                        
+        else: 
+            videoPointGroup = q.get()
+            videoPointGroup.numberUsers +=1;
+            videoPointGroup.put()
+
+        #always create videopoint
+        video_point = models.VideoPoint()
+        video_point.user = user
+        video_point.video = ndb.Key(models.Video, int(video))
+        video_point.time = time
+        video_point.point_type = point_type
+        
+        if videoPointGroup.resolved:
+            video_point.resolved = videoPointGroup.resolved
+            self.response.write(json.dumps(videoPointGroup.video.get_thumbnail_url()))
+
+        video_point.put()
+        self.response.write(json.dumps({'response' : 'error'}))
 
 class APIListHandler(webapp2.RequestHandler):
     def get(self):
@@ -266,7 +266,7 @@ app = webapp2.WSGIApplication([
     ('/search', SearchHandler),
     ('/search/ajax', SearchAjaxHandler),
     ('/watch/(\d+)', WatchHandler),
-	('/parsevp',ParseVideoPointHandler),
+    ('/parsevp',ParseVideoPointHandler),
     ('/api/list', APIListHandler),
     #('/confused', ConfusedHandler),
     #('/practice', PracticeHandler),
