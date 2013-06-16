@@ -50,12 +50,9 @@ body {
     line-height: 22px;
 }
 .field-p {
-    color: #000;
-    font-size: 25px;
-    font-family: BentonSans ExtraLight;
-    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-             0px 8px 13px rgba(0,0,0,0.1),
-             0px 18px 23px rgba(0,0,0,0.1);
+    color: #999697;
+    font-size: 20px;
+    font-family: Helvetica-Light;
     line-height: 22px;
 }
 
@@ -193,7 +190,6 @@ video {
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
              0px 8px 13px rgba(0,0,0,0.1),
              0px 18px 23px rgba(0,0,0,0.1);
-    padding: 0px 0px 15px 0px;
 }
 
 .thumbnail {

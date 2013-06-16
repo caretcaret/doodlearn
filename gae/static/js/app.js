@@ -70,7 +70,7 @@ $(document).ready(function(){
             });
 	    } else {
             button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Are you curious? <button type="button" class="close">×</button>',
                 content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
@@ -95,7 +95,7 @@ $(document).ready(function(){
             console.log(data);
 	   if(data.url) {
             button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Need some practice? <button type="button" class="close">×</button>',
                 content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
@@ -103,7 +103,7 @@ $(document).ready(function(){
             });
 	  } else {
             button.popover({
-                placement: 'left',
+                placement: 'bottom',
                 trigger: 'manual',
                 title: 'Need some practice? <button type="button" class="close">×</button>',
                 content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
@@ -164,8 +164,9 @@ $(document).ready(function(){
             var file_2 = '<input class="btn btn-small" type="button" value="Upload Video.." name="video" onclick="$(this).parent().find('+ "'input[type=file]'" + ').click();" accept="video/*;capture=camcorder"/>';
             var file_3 = '&nbsp;<span class="badge badge-important" ></span></span></div><br>';
             var vpg_f = '<input type="hidden" name="vpg_id" value="' + vpg + '"><br>';
+            var parent_f = '<input type="hidden" name="parent_video" value="' + video + '"><br>';
             var submit_f = '<div><input type="submit" name="submit" class="btn btn-primary btn-large" value="Submit"/>';
-            var form = header + name + description + file + file_1 + file_2 + file_3 + vpg_f + submit_f;
+            var form = header + name + description + file + file_1 + file_2 + file_3 + vpg_f + parent_f + submit_f;
             button.popover({
                 placement: 'left',
                 trigger: 'manual',
@@ -182,4 +183,76 @@ $(document).ready(function(){
             });
         });
     });
+
+    
+    $("#upload-confused").click(function () {
+        myPlayer.pause();
+        var button = $(this);
+        var vpg = $("#upload-confused").data("vpg")
+
+        $.getJSON(upload_url, function(data) {
+            console.log(data);
+            var header = '<form action="' + data + '" method="POST" enctype="multipart/form-data"';
+            var name = '<div> <label> <div class="field-p"> Video Name: </div></label><input type="text" name="name"></div><br>';
+            var description = '<div><label><div class="field-p"> Description: </div></label> <textarea name="description" rows="3"></textarea></div><br>';
+            var file = '<div><label><div class="field-p"> Upload File </div></label>';
+            var file_1 = '<span><input type="file" style="visibility:hidden; width: 1px;" id=' + "'${multipartFilePath}'" + ' name="video" onchange="$(this).parent().find('+ "'span'" +').html($(this).val().replace('+ "'C:\\fakepath\\'" + ', '+ "''" + '))"  />'; 
+            var file_2 = '<input class="btn btn-small" type="button" value="Upload Video.." name="video" onclick="$(this).parent().find('+ "'input[type=file]'" + ').click();" accept="video/*;capture=camcorder"/>';
+            var file_3 = '&nbsp;<span class="badge badge-important" ></span></span></div><br>';
+            var vpg_f = '<input type="hidden" name="vpg_id" value="' + vpg + '"><br>';
+            var parent_f = '<input type="hidden" name="parent_video" value="' + video + '"><br>';
+            var submit_f = '<div><input type="submit" name="submit" class="btn btn-primary btn-large" value="Submit"/>';
+            var form = header + name + description + file + file_1 + file_2 + file_3 + vpg_f + parent_f + submit_f;
+            button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Want to help? <button type="button" class="close">×</button>',
+                content: form,
+                html: true
+            });
+
+            button.popover('show');
+
+            $('.close').click(function() {
+                button.popover('hide');
+                myPlayer.play();
+            });
+        });
+    });
+
+    $("#upload-practice").click(function () {
+        myPlayer.pause();
+        var button = $(this);
+        var vpg = $("#upload-practice").data("vpg")
+
+        $.getJSON(upload_url, function(data) {
+            console.log(data);
+            var header = '<form action="' + data + '" method="POST" enctype="multipart/form-data"';
+            var name = '<div> <label> <div class="field-p"> Video Name: </div></label><input type="text" name="name"></div><br>';
+            var description = '<div><label><div class="field-p"> Description: </div></label> <textarea name="description" rows="3"></textarea></div><br>';
+            var file = '<div><label><div class="field-p"> Upload File: </div></label>';
+            var file_1 = '<span><input type="file" style="visibility:hidden; width: 1px;" id=' + "'${multipartFilePath}'" + ' name="video" onchange="$(this).parent().find('+ "'span'" +').html($(this).val().replace('+ "'C:\\fakepath\\'" + ', '+ "''" + '))"  />'; 
+            var file_2 = '<input class="btn btn-small" type="button" value="Upload Video.." name="video" onclick="$(this).parent().find('+ "'input[type=file]'" + ').click();" accept="video/*;capture=camcorder"/>';
+            var file_3 = '&nbsp;<span class="badge badge-important" ></span></span></div><br>';
+            var vpg_f = '<input type="hidden" name="vpg_id" value="' + vpg + '"><br>';
+            var parent_f = '<input type="hidden" name="parent_video" value="' + video + '">';
+            var submit_f = '<div><input type="submit" name="submit" class="btn btn-primary btn-large" value="Submit"/>';
+            var form = header + name + description + file + file_1 + file_2 + file_3 + vpg_f + parent_f + submit_f;
+            button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Want to help? <button type="button" class="close">×</button>',
+                content: form,
+                html: true
+            });
+
+            button.popover('show');
+
+            $('.close').click(function() {
+                button.popover('hide');
+                myPlayer.play();
+            });
+        });
+    });
+
 });

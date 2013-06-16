@@ -17,6 +17,7 @@
 import json
 import itertools
 import os
+import traceback
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -54,7 +55,7 @@ class MainHandler(webapp2.RequestHandler):
 
         # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
         values = {'videos' : videos,
-                    'videos_sliced' : helper.slice_grouper(4, videos)}
+                    'videos_sliced' : helper.slice_grouper(3, videos)}
         path = 'templates/index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
@@ -100,7 +101,9 @@ class WatchHandler(webapp2.RequestHandler):
         video = models.Video.get_by_id(int(video_id))
         video.url = '/serve/%s' % video.video_file
         video.id = video_id
-        values = {'video': video}
+        uastring = self.request.headers.get('user_agent')
+        mobile = "android" in uastring.lower()
+        values = {'video': video, 'mobile' : mobile}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
 	
@@ -162,12 +165,15 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
         thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
         video.thumbnail_file = thumbnail_blob_info.key()
 
-    parent = self.request.get('parent')
+    parent = self.request.get('parent_video')
     if parent:
-        video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
+        video.parent_video = ndb.Key(models.Video, parent)
 
     video.put()
-
+    videoPointGroup = models.VideoPointGroup.get_by_id(int(self.request.get('vpg_id')))
+    
+    videoPointGroup.resolved = video.key
+    videoPointGroup.put()
     if self.request.get('noredirect'):
         result = {'video_id' : str(video.key.id()),
                     'video_url' : video.get_video_url()}
@@ -310,15 +316,14 @@ class ParseVideoPointHandler(webapp2.RequestHandler):
 
         if videoPointGroup.resolved:
             video_point.resolved = videoPointGroup.resolved
-            video_thumbnail = videoPointGroup.video.get_thumbnail_url()
-            video_url = videoPointGroup.video.get_video_url()
+            video_thumbnail = videoPointGroup.video.get().get_thumbnail_url()
+            video_url = "/watch/"+ str(videoPointGroup.resolved.id())
             self.response.write(json.dumps({'thumbnail': video_thumbnail,
                                             'url': video_url}))
 
         video_point.put()
         # dummy response for now
-        self.response.write(json.dumps({'thumbnail' : '/serve/a2zKdQo9BFmySP0qxF0vsw==',
-            'url' : '/watch/626116896437'}))
+        self.response.write(json.dumps({}))
 
 class APIListHandler(webapp2.RequestHandler):
     def get(self):
