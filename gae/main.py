@@ -16,6 +16,7 @@
 #
 import os
 
+from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
@@ -39,45 +40,14 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(template.render(values))
 
 class WatchHandler(webapp2.RequestHandler):
-    def get(self, video):
-        values = {'youtube_link': video}
+    def get(self, video_id):
+        video = models.Video.get_by_id(int(video_id))
+        video.url = '/serve/%s' % video.video_file
+
+        values = {'video': video}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
-
-class CreateVideoHandler(webapp2.RequestHandler):
-    def get(self):
-        self.post()
-
-    def post(self):
-  #   	params = dict(self.request.params.items())
-
-  #   	model_type = params.pop("model", None)
-  #   	model = None
-  #   	if model_type == 'video':
-  #   		model = models.Video
-		# elif model_type == 'video_point':
-		# 	model = models.VideoPoint
-		# else:
-		# 	raise Exception("unknown model type")
-
-  #   	model = model(**params)
-  #   	model.put()
-        
-        video = models.Video()
-        video.name = self.request.get('name')
-
-        parent = self.request.get('parent')
-        if parent:
-        	video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
-
-        video.description = self.request.get('description')
-        video.standards = self.request.get('standards')
-        video.category = self.request.get('category')
-        video.youtube = self.request.get('youtube')
-        video.put()
-
-        self.response.write('success')
 
 class CreateVideoPointHandler(webapp2.RequestHandler):
     def get(self):
@@ -115,7 +85,22 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
     upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
     blob_info = upload_files[0]
-    self.redirect('/serve/%s' % blob_info.key())
+
+    video = models.Video()
+    video.name = self.request.get('name')
+    video.description = self.request.get('description')
+    video.category = self.request.get('category')
+    video.video_file = blob_info.key()
+    video.user = users.get_current_user()
+
+    parent = self.request.get('parent')
+    if parent:
+        video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
+
+    video.put()
+
+    # TODO: display a success page?
+    self.redirect('/')
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):
@@ -140,10 +125,9 @@ class SearchHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/create', CreateVideoHandler),
     ('/create_video_point', CreateVideoPointHandler),
     ('/get_video', GetVideoHandler),
-    ('/upload', UploadFormHandler),
+    ('/new', UploadFormHandler),
     ('/upload_file', UploadFileHandler),
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
