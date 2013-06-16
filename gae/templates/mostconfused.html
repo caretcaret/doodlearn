@@ -1,0 +1,17 @@
+{% extends "templates/base.html" %}
+{% block content %}
+<div class="title">{{ page_title }}</div>
+<div class="row">
+  {% for video in videos %}
+  <div class="span4">
+    <div class="hero-unit">
+    <a href="{{ video.get_view_url() }}">
+      <div class="explore_title">{{ video.name }}</div>
+      <img class="explore_thumbnail" src="{{ video.get_thumbnail_url() }}"  />
+    </a>
+</div>
+</div>
+  {% endfor %}
+
+
+{% endblock %}
