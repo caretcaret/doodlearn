@@ -24,7 +24,7 @@ from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
 #from google.appengine.ext import db.GqlQuery
 from google.appengine.ext.webapp import blobstore_handlers
-
+import logging
 import webapp2
 
 import helper
@@ -178,7 +178,7 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
         
         videoPointGroup.resolved = video.key
         videoPointGroup.put()
-        
+
     if self.request.get('noredirect'):
         result = {'video_id' : str(video.key.id()),
                     'video_url' : video.get_video_url()}
