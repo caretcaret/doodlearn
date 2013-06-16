@@ -25,6 +25,7 @@
                         <div class="thumbnail">
                             <a href="watch/{{ video.key.id() }}"><img src="{{ video.get_thumbnail_url() }}" /></a>
                         </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
                     </li>
 
             {% else %}
@@ -32,6 +33,7 @@
                         <div class="thumbnail">
                             <video class="thumbnail" src="{{ video.get_video_url() }}"/>
                         </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
             </li>
             {% endif %}
         {% endfor %}
@@ -45,6 +47,7 @@
                         <div class="thumbnail">
                             <a href="watch/{{ video.key.id() }}"><img src="{{ video.get_thumbnail_url() }}" /></a>
                         </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
                     </li>
 
             {% else %}
@@ -52,6 +55,7 @@
                         <div class="thumbnail">
                             <video class="thumbnail" src="{{ video.get_video_url() }}"/>
                         </div>
+                        <a href="watch/{{ video.key.id() }}"><div class="slider_title">{{ video.name }}</div></a>
             </li>
             {% endif %}
             {% endfor %}
