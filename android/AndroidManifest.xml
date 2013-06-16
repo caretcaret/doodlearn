@@ -25,7 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mintyfox.doodlearn.WatchActivity"></activity>
+        <activity android:name="com.mintyfox.doodlearn.WatchActivity"
+            android:configChanges="orientation|screenSize">
+            
+        </activity>
     </application>
 
 </manifest>
