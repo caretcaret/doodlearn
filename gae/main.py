@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 import json
+import itertools
 import os
 
 from google.appengine.api import users
@@ -49,12 +50,46 @@ def _add_default_values(values):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-
         videos = models.Video.query().fetch(limit=20)
 
         # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
         values = {'videos' : videos}
         path = 'templates/index.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(_add_default_values(values)))
+
+class ExploreHandler(webapp2.RequestHandler):
+    def get(self):
+
+        videos = models.Video.query().fetch()
+
+        get_category = lambda video:video.category
+        videos.sort(key=get_category)
+        videos = map(lambda (k, g): list(g)[-1],itertools.groupby(videos, get_category))
+        for video in videos:
+            video.title = video.category
+            video.link = '/category/' + video.category
+
+        # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
+        values = {'videos' : videos, 'page_title' : 'Explore by Category'}
+        path = 'templates/explore.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(_add_default_values(values)))
+
+class CategoryHandler(webapp2.RequestHandler):
+    def get(self, category):
+
+        videos = models.Video.query(models.Video.category==category).fetch()
+
+        get_category = lambda video:video.category
+        videos.sort(key=get_category)
+        for video in videos:
+            video.title = video.name
+            video.link = '/watch/' + str(video.key.id())
+
+        # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
+        values = {'videos' : videos, 'category' : category, 'page_title' : 'Category: ' + category}
+        path = 'templates/explore.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
 
@@ -270,6 +305,8 @@ app = webapp2.WSGIApplication([
     ('/watch/(\d+)', WatchHandler),
     ('/parsevp',ParseVideoPointHandler),
     ('/api/list', APIListHandler),
+    ('/explore', ExploreHandler),
+    ('/category/(.*)', CategoryHandler)
     #('/confused', ConfusedHandler),
     #('/practice', PracticeHandler),
    # ('/curious', CuriousHandler)
