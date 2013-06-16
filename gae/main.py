@@ -53,7 +53,8 @@ class MainHandler(webapp2.RequestHandler):
         videos = models.Video.query().fetch(limit=20)
 
         # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
-        values = {'videos' : videos}
+        values = {'videos' : videos,
+                    'videos_sliced' : helper.slice_grouper(4, videos)}
         path = 'templates/index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))

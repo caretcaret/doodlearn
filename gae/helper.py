@@ -8,6 +8,9 @@ import logging
 
 SIMPLE_TYPES = (int, long, float, bool, dict, basestring)
 
+def slice_grouper(n, sequence):
+   return [sequence[i:i+n] for i in range(0, len(sequence), n)]
+
 def key_results(l):
     result = {}
     for item in l:
