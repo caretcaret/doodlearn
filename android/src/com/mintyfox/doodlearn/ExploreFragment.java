@@ -22,7 +22,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class ExploreFragment extends ListFragment {
-	public final String VID_LISTING_URL = "http://doodlearn1.appspot.com/search/ajax";
+	public final String VID_LISTING_URL = "http://doodlearn1.appspot.com/api/list";
+	public ArrayList<String> vid_titles;
+	public ArrayList<Long> vid_ids;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -37,7 +39,8 @@ public class ExploreFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 	  // Do something with the data
-
+		Context context = getActivity();
+		Toast.makeText(context, vid_ids.get(position).toString(), Toast.LENGTH_SHORT).show();
 	}
 	
 	public static String readStream(InputStream in) {
@@ -84,20 +87,25 @@ public class ExploreFragment extends ListFragment {
 		@Override
 		protected void onPostExecute(String result) {
 			Context context = getActivity();
-			ArrayList<String> list = new ArrayList<String>();
+			ArrayList<String> titles = new ArrayList<String>();
+			ArrayList<Long> ids = new ArrayList<Long>();
 			JSONArray ja;
 			try {
 				ja = new JSONArray(result);
 			   int len = ja.length();
 			   for (int i=0;i<len;i++){ 
-			    list.add(ja.get(i).toString());
+				JSONArray ja_inner = ja.getJSONArray(i);
+			    titles.add(ja_inner.get(0).toString());
+			    ids.add(ja_inner.getLong(1));
 			   }
 			} catch (JSONException e) {
 				Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
 			}
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-				  android.R.layout.simple_list_item_1, list);
+				  android.R.layout.simple_list_item_1, titles);
 				  setListAdapter(adapter);
+			vid_titles = titles;
+			vid_ids = ids;
 		}
 		
 	}
