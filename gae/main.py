@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 from google.appengine.ext import ndb
+
 import webapp2
 
 import helper
@@ -27,10 +28,20 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'])
 
+import os
+import urllib
+
+import jinja2
+import webapp2
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'])
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         values = {}
-        path = 'index.html'
+        path = 'templates/index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
 
@@ -91,9 +102,26 @@ class GetVideoHandler(webapp2.RequestHandler):
 
         self.response.write(helper.to_json(video))
 
+class SearchHandler(webapp2.RequestHandler):
+    def get(self):
+        self.post()
+
+    def post(self):
+        query = self.request.get('search')
+        if not query:
+            query = ''
+        videos_q = models.Video.gql("WHERE category = :1", query)
+        videos = list(videos_q)
+        values = {'videos': videos}
+        path = 'templates/search.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(values))
+
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/create', CreateVideoHandler),
     ('/create_video_point', CreateVideoPointHandler),
-    ('/get_video', GetVideoHandler)
+    ('/get_video', GetVideoHandler),
+    ('/search', SearchHandler)
 ], debug=True)
