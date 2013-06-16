@@ -58,7 +58,7 @@
                 </form>
               </li>
               {% if users.get_current_user() %}
-              <li><a href="/profile/{{ users.get_current_user() }}">{{ users.get_current_user() }}</a></li>
+              <li><a>{{ users.get_current_user() }}</a></li>
               {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
