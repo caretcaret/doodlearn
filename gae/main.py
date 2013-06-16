@@ -53,7 +53,8 @@ class MainHandler(webapp2.RequestHandler):
         videos = models.Video.query().fetch(limit=20)
 
         # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
-        values = {'videos' : videos}
+        values = {'videos' : videos,
+                    'videos_sliced' : helper.slice_grouper(4, videos)}
         path = 'templates/index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
@@ -167,8 +168,13 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
 
     video.put()
 
-    # TODO: display a success page?
-    self.redirect('/watch/' + str(video.key.id()))
+    if self.request.get('noredirect'):
+        result = {'video_id' : str(video.key.id()),
+                    'video_url' : video.get_video_url()}
+        self.response.write(helper.to_json(result))
+    else:
+        # TODO: display a success page?
+        self.redirect('/watch/' + str(video.key.id()))
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):
@@ -359,6 +365,10 @@ class APIListHandler(webapp2.RequestHandler):
 		video_point.put()
 		self.response.out.write("hello")
 		return json.dumps("{foo}")
+
+class APIGetUploadURLHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(blobstore.create_upload_url('/upload_file'))
 	
 
 app = webapp2.WSGIApplication([
@@ -375,7 +385,8 @@ app = webapp2.WSGIApplication([
     ('/api/list', APIListHandler),
     ('/explore', ExploreHandler),
     ('/category/(.*)', CategoryHandler),
-    ('/confused', ConfusedHandler)
+    ('/confused', ConfusedHandler),
+    ('/api/get_upload_url', APIGetUploadURLHandler)
     #('/practice', PracticeHandler),
    # ('/curious', CuriousHandler)
 ], debug=True)
