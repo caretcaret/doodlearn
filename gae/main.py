@@ -100,7 +100,7 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
     video.put()
 
     # TODO: display a success page?
-    self.redirect('/')
+    self.redirect('/watch/' + str(video.key.id()))
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):

@@ -1,11 +1,18 @@
-<html>
-    
-    <body>
-        <form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">Upload File:
-            <input type="file" accept="video/*;capture=camcorder" name="file">
+{% extends "templates/base.html" %}
+{% block content %}
+       <form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+            <label> Video Name:</label> <input type = "text" name = "name"> <br />
+	    <label> Description</label> <textarea name = "description" rows="3"></textarea> <br />
+	    <label> Category: </label> <select name = "category">
+	    <option>English</option>
+	    <option>Math</option>
+	    <option>Science</option>
+	    <option>History</option>
+	    <option>Fun</option>
+	    </select> <br />
+	   <label> Upload File: </label>
+	    <input type="file" accept="video/*;capture=camcorder" name="file">
             <br />
             <input type="submit" name="submit" value="Submit">
-        </form>
-    </body>
-
-</html>
+        </form> 
+{% endblock %}
