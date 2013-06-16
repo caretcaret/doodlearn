@@ -136,9 +136,25 @@ class SearchHandler(webapp2.RequestHandler):
         query = self.request.get('search')
         if not query:
             query = ''
-        videos_q = models.Video.gql("WHERE category = :1", query)
-        videos = list(videos_q)
-        values = {'videos': videos}
+
+        queryl = query.lower()
+
+        terms = queryl.split(' ')
+
+        def match(video):
+            if queryl in video.category.lower():
+                return True
+
+            name = video.name.lower()
+            for term in terms:
+                if term in name:
+                    return True
+            return False
+
+        videos = filter(match, models.Video.query())
+
+        values = {'videos': videos,
+                    'search' : query}
         path = 'templates/search.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))

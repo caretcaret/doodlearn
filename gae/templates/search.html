@@ -3,7 +3,7 @@
     {% if videos %}
         <ul>
             {% for v in videos %}
-                <li> {{v.name}}</li>
+                <li> <a href="/watch/{{ v.key.id() }}">{{v.name}}</a></li>
             {% endfor %}
         </ul>
     {% else %}

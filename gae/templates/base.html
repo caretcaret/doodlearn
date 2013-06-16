@@ -53,7 +53,8 @@
             <ul class="nav pull-right">
               <li>
                 <form action="/search" class="navbar-search">
-                  <input id="tags" type="text" name="search" class="search-query" placeholder="Search">
+                  <input id="tags" type="text" name="search" class="search-query" placeholder="Search"
+                    {% if search %} value="{{ search }}" {% endif %}>
                 </form>
               </li>
               {% if users.get_current_user() %}
