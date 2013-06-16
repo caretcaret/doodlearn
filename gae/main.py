@@ -40,8 +40,15 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        values = {}
+        values = {'videos': ['3MqYE2UuN24', 'IOYyCHGWJq4', 'KIbkoop4AYE']}
         path = 'templates/index.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(values))
+
+class WatchHandler(webapp2.RequestHandler):
+    def get(self, video):
+        values = {'youtube_link': video}
+        path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
 
@@ -123,5 +130,6 @@ app = webapp2.WSGIApplication([
     ('/create', CreateVideoHandler),
     ('/create_video_point', CreateVideoPointHandler),
     ('/get_video', GetVideoHandler),
-    ('/search', SearchHandler)
+    ('/search', SearchHandler),
+    ('/watch/(.+)', WatchHandler)
 ], debug=True)
