@@ -102,7 +102,7 @@ class WatchHandler(webapp2.RequestHandler):
         video.url = '/serve/%s' % video.video_file
         video.id = video_id
         uastring = self.request.headers.get('user_agent')
-        mobile = "android" in uastring.lower()
+        mobile = True #"android" in uastring.lower()
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
 	

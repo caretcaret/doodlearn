@@ -11,6 +11,9 @@ $(document).ready(function(){
     var cuId = 0;
     var prId = 0;
 
+    var player = $('video');
+    var player_elem = player.get(0)
+
     $("#upload-confused").hide();
     $("#upload-curious").hide();
     $("#upload-practice").hide();
@@ -18,7 +21,7 @@ $(document).ready(function(){
     var dynamicTimer = setInterval(dynamicUpload, 1000);
 
     $("#tag-confused").click(function(){
-        var time = myPlayer.currentTime();
+        var time = player_elem.currentTime;
         var button = $(this);
         $.getJSON(tag_url, {
                                 video: video,
@@ -52,7 +55,7 @@ $(document).ready(function(){
     });
 
     $("#tag-curious").click(function(){
-        var time = myPlayer.currentTime();
+        var time = player_elem.currentTime;
         var button = $(this);
         $.getJSON(tag_url, {
                                 video: video,
@@ -85,7 +88,7 @@ $(document).ready(function(){
     });
 
     $("#tag-practice").click(function(){
-        var time = myPlayer.currentTime();
+        var time = player_elem.currentTime;
         var button = $(this);
         $.getJSON(tag_url, {
                                 video: video,
@@ -119,7 +122,7 @@ $(document).ready(function(){
     function dynamicUpload() {
         dynamicCount++;
 
-        if (coId < confused_vpgs) {
+        if (coId < confused_vpgs.length) {
             if (dynamicCount == confused_vpgs[coId].time){
                 $("#upload-confused").show();
                 $("#upload-confused").data("vpg", confused_vpgs[coId].id);
@@ -150,7 +153,7 @@ $(document).ready(function(){
     }
 
     $("#upload-curious").click(function () {
-        myPlayer.pause();
+        player_elem.pause();
         var button = $(this);
         var vpg = $("#upload-curious").data("vpg")
 
@@ -179,14 +182,14 @@ $(document).ready(function(){
 
             $('.close').click(function() {
                 button.popover('hide');
-                myPlayer.play();
+                player_elem.play();
             });
         });
     });
 
     
     $("#upload-confused").click(function () {
-        myPlayer.pause();
+        player_elem.pause();
         var button = $(this);
         var vpg = $("#upload-confused").data("vpg")
 
@@ -215,13 +218,13 @@ $(document).ready(function(){
 
             $('.close').click(function() {
                 button.popover('hide');
-                myPlayer.play();
+                player_elem.play();
             });
         });
     });
 
     $("#upload-practice").click(function () {
-        myPlayer.pause();
+        player_elem.pause();
         var button = $(this);
         var vpg = $("#upload-practice").data("vpg")
 
@@ -250,7 +253,7 @@ $(document).ready(function(){
 
             $('.close').click(function() {
                 button.popover('hide');
-                myPlayer.play();
+                player_elem.play();
             });
         });
     });
