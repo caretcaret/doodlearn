@@ -317,6 +317,47 @@ class APIListHandler(webapp2.RequestHandler):
         videos = models.Video.query().fetch(limit=20)
         video_data = map(lambda v: [v.name, v.key.id(), str(v.video_file)], videos)
         self.response.write(json.dumps(video_data))
+	
+	def post(self):
+		params = self.request.get("data")
+		video = self.request.get("video")
+		
+		time = self.request.get("time")
+		time = int(round(float(time)))
+		user = users.get_current_user()	
+		point_type = self.request.get("point_type")	
+		halfMinute = time - (time % 30)
+
+		q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(video)), models.VideoPointGroup.time == halfMinute)
+
+		if not q.get() :
+			videoPointGroup = models.VideoPointGroup()
+			videoPointGroup.video = ndb.Key(models.Video, int(video))
+			videoPointGroup.time = halfMinute
+			videoPointGroup.numberUsers = 1
+			videoPointGroup.point_type = point_type
+			videoPointGroup.put()
+						
+		else: 
+			videoPointGroup = q.get()
+			videoPointGroup.numberUsers +=1;
+			videoPointGroup.put()
+
+		#always create videopoint
+		video_point = models.VideoPoint()
+		video_point.user = user
+		video_point.video = ndb.Key(models.Video, int(video))
+		video_point.time = time
+		video_point.point_type = point_type
+		
+		if videoPointGroup.resolved:
+			video_point.resolved = videoPointGroup.resolved
+			video_point.put()
+			return videoPointGroup.video.get_thumbnail_url()
+		video_point.put()
+		self.response.out.write("hello")
+		return json.dumps("{foo}")
+	
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),

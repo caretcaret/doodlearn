@@ -21,6 +21,7 @@ $(document).ready(function(){
                                 video: video,
                                 time: time,
                                 point_type: "confused"
+<<<<<<< Updated upstream
         }, function(data) { 
             console.log(data);
             if (data.url) {
@@ -46,6 +47,9 @@ $(document).ready(function(){
                 button.popover('hide');
             });
         });
+=======
+        }).always(function(data){ alert(data);});
+>>>>>>> Stashed changes
     });
 
     $("#tag-curious").click(function(){
