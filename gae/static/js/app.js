@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var myPlayer = videojs("video",{"controls":true, "autoplay":true, "preload":true});
-    myPlayer.dimensions(840,480);
+    myPlayer.dimensions(800,480);
     var video = $("#tags-app").data("video");
     var tag_url = "/parsevp";
 
@@ -10,6 +10,8 @@ $(document).ready(function(){
                                 video: video,
                                 time: time,
                                 point_type: "confused"
+        }, function(data) { 
+            console.log(data);
         });
     });
 
@@ -31,6 +33,8 @@ $(document).ready(function(){
                                 video: video,
                                 time: time,
                                 point_type: "practice"
+        }, function(data) { 
+            console.log(data);
         });
     });
 
