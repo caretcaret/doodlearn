@@ -19,7 +19,7 @@ import os
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
-from google.appengine.ext import db.GqlQuery
+##from google.appengine.ext import db.GqlQuery
 from google.appengine.ext.webapp import blobstore_handlers
 
 import webapp2
@@ -150,7 +150,7 @@ class LoginHandler(webapp2.RequestHandler):
         path = 'templates/search.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
-
+'''
 class ConfusedHandler(webapp2.RequestHandler):
 	def get(self):
 		videoGroups = GqlQuery("SELECT * FROM VideoPointGroup WHERE point_type = 'confused' ORDERBY numberUsers DESC LIMIT 20")
@@ -174,7 +174,7 @@ class CuriousHandler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template(path)
 		values = {'videos':videoGroups}
 		self.response.write(template.render(values))	
-
+'''
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/create_video_point', CreateVideoPointHandler),
@@ -183,8 +183,8 @@ app = webapp2.WSGIApplication([
     ('/upload_file', UploadFileHandler),
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
-    ('/watch/(\d+)', WatchHandler),
-    ('/confused', ConfusedHandler),
-    ('/practice', PracticeHandler),
-    ('/curious', CuriousHandler)
+    ('/watch/(\d+)', WatchHandler)
+    #('/confused', ConfusedHandler),
+    #('/practice', PracticeHandler),
+   # ('/curious', CuriousHandler)
 ], debug=True)
