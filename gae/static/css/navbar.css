@@ -1,0 +1,143 @@
+/*.navbar{
+   background:transparent;
+margin:10px 0px 10px 0px;
+}
+
+.navbar-inner > .container{
+   background:transparent;
+}
+
+.navbar-inner{
+background:transparent;
+border-radius:0px;
+filter: none !important;
+border-left:0px !important;
+border-right:0px !important;
+}
+
+.navbar .btn{
+background:#cc412a !important; 
+font-size:13px;
+padding:4px 10px;
+}
+
+.navbar .btn:hover{
+opacity: 0.5;
+}
+
+.navbar .caret{
+border-top-color:#fff !important;
+border-bottom-color:#fff !important;
+}
+
+.navbar .brand{
+color:#fff !important;
+text-shadow:none !important;
+}
+
+.navbar .nav{
+border-left:1px solid #cc412a;
+border-right:1px solid #e75f48;
+}
+
+.navbar .nav > li > a{
+   background:transparent;
+padding:12px 15px 12px;
+color:#fff !important;
+text-shadow:none !important;
+border-right: 1px solid #000000;
+border-left:1px solid #0f1c2c;
+-webkit-transition:background 1s ease;
+-moz-transition:background 1s ease;
+-o-transition:background 1s ease;
+transition:background 1s ease;
+}
+
+.navbar .nav > li > a:hover{
+   background:transparent;
+opacity: 0.5;
+color:#fff !important;
+-webkit-transition:background 1s ease;
+-moz-transition:background 1s ease;
+-o-transition:background 1s ease;
+transition:background 1s ease;
+}
+
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover,
+.navbar .nav .active > a:focus {
+color: #ffffff;
+box-shadow:none;
+}
+
+.dropdown-toggle{
+}
+
+.nav-collapse a{
+font-weight:normal !important;
+text-shadow:none !important;
+}
+
+.dropdown-menu{
+border-radius:0px !important;
+box-shadow:none !important;
+border-bottom:none !important;
+padding:0px 0px;
+margin:0px;
+}
+
+.dropdown-menu a{
+padding:9px 10px;
+color:#fff !important;
+text-shadow:none !important;
+-webkit-transition:background 1s ease;
+-moz-transition:background 1s ease;
+-o-transition:background 1s ease;
+transition:background 1s ease;
+border-bottom:1px solid #cc412a;
+}
+
+.dropdown-menu a:hover,.dropdown-menu a:focus{
+filter:none !important;
+-webkit-transition:background 1s ease;
+-moz-transition:background 1s ease;
+-o-transition:background 1s ease;
+transition:background 1s ease;
+}
+
+.dropdown-menu::after, .dropdown-menu::before{
+border:none !important;
+}
+*/
+
+/* For Responsive design */
+
+/*
+@media (max-width: 767px){
+   .navbar{
+   margin-left:-20px;
+   margin-right:-20px;
+   }
+   .navbar .nav{
+   border:0px !important;
+   }
+   .navbar .nav > li > a{
+   border:0px !important;
+   }
+   .dropdown-menu a{
+   border-bottom:none !important;
+   }   
+}
+
+@media (min-width: 768px) and (max-width: 979px){
+   .navbar .nav{
+   border:0px !important;
+   }
+   .navbar .nav > li > a{
+   border:0px !important;
+   }
+   .dropdown-menu a{
+   border-bottom:none !important;
+   }
+}
+*/

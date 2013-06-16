@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import json
 import os
 
 from google.appengine.api import users
@@ -47,7 +48,11 @@ def _add_default_values(values):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        values = {'videos': ['3MqYE2UuN24', 'IOYyCHGWJq4', 'KIbkoop4AYE']}
+
+        videos = models.Video.query().fetch(limit=20)
+
+        # http://img.youtube.com/vi/{{video}}/hqdefault.jpg for youtube pics
+        values = {'videos' : videos}
         path = 'templates/index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
@@ -96,15 +101,18 @@ class UploadFormHandler(webapp2.RequestHandler):
 
 class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
-    upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
-    blob_info = upload_files[0]
-
     video = models.Video()
     video.name = self.request.get('name')
     video.description = self.request.get('description')
     video.category = self.request.get('category')
-    video.video_file = blob_info.key()
     video.user = users.get_current_user()
+
+    video_blob_info = self.get_uploads('video')[0]  # 'video' is file upload field in the form
+    video.video_file = video_blob_info.key()
+
+    if self.get_uploads('thumbnail'):
+        thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
+        video.thumbnail_file = thumbnail_blob_info.key()
 
     parent = self.request.get('parent')
     if parent:
@@ -129,12 +137,33 @@ class SearchHandler(webapp2.RequestHandler):
         query = self.request.get('search')
         if not query:
             query = ''
-        videos_q = models.Video.gql("WHERE category = :1", query)
-        videos = list(videos_q)
-        values = {'videos': videos}
+
+        queryl = query.lower()
+
+        terms = queryl.split(' ')
+
+        def match(video):
+            if queryl in video.category.lower():
+                return True
+
+            name = video.name.lower()
+            for term in terms:
+                if term in name:
+                    return True
+            return False
+
+        videos = filter(match, models.Video.query())
+
+        values = {'videos': videos,
+                    'search' : query}
         path = 'templates/search.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
+
+class SearchAjaxHandler(webapp2.RequestHandler):
+    def get(self):
+        video_names = map(lambda video : video.name, models.Video.query().fetch())
+        self.response.write(json.dumps(video_names))
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -183,6 +212,7 @@ app = webapp2.WSGIApplication([
     ('/upload_file', UploadFileHandler),
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
+    ('/search/ajax', SearchAjaxHandler),
     ('/watch/(\d+)', WatchHandler)
     #('/confused', ConfusedHandler),
     #('/practice', PracticeHandler),

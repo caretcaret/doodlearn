@@ -22,7 +22,7 @@ body {
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
              0px 8px 13px rgba(0,0,0,0.1),
              0px 18px 23px rgba(0,0,0,0.1);
-    padding: 85px 0px 90px 0px;
+    padding: 85px 0px 35px 0px;
     line-height: 58px;
 }
 
@@ -33,7 +33,7 @@ body {
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
              0px 8px 13px rgba(0,0,0,0.1),
              0px 18px 23px rgba(0,0,0,0.1);
-    padding: 85px 0px 90px 0px;
+    padding: 85px 0px 40px 0px;
 }
 
 .field {
@@ -46,7 +46,7 @@ body {
     line-height: 22px;
 }
 
-#upload {
+.upload {
     position:absolute;
     z-index:2;
     top:0;
@@ -78,6 +78,12 @@ video {
     width: 800px;
     display: block;
 }
+
+.thumbnail {
+  height: 100%;
+  width: 100%;
+}
+
 .others {
   position: relative;
 }
@@ -88,6 +94,12 @@ video {
   top: 100;
   z-index: 2147483647;
 }
+
+.hero-unit{
+    background-color: rgba(0, 0, 0, 0.5); // use rgba and set Opacity to 0 for transparent.
+ }
+
+
 
 
 

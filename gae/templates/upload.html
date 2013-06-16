@@ -10,8 +10,8 @@
         <input type = "text" name = "name"> 
         </div> <br>
         <div class="row">
-	    <label><div class="field">Description: </div></label> <textarea name = "description" rows="3"></textarea> <br>
-        </div>
+	    <label><div class="field">Description: </div></label> <textarea name = "description" rows="3"></textarea> 
+        </div><br>
         <div class="row">
 	    <label><div class="field"> Category: </div></label> <select name = "category">
 	    <option>English</option>
@@ -27,14 +27,29 @@
             <div style="position:relative;">
         <a class='btn' href='javascript:;'>
             Choose File...
-            <div id="upload"><input type="file" accept="video/*;capture=camcorder" name="file"></div>
+            <div class="upload"><input type="file" accept="video/*;capture=camcorder" name="video"></div>
         </a>
         <span class='label label-info' id="upload-file-info"></span>
         </div>
+        </div>
             
             <br>
+        <div class="row">
+            <label><div class="field"> Upload Thumbnail: </div></label>
+            <div style="position:relative;">
+            <a class='btn' href='javascript:;'>
+            Choose File...
+            <div class="upload"><input type="file" accept="image/*;capture=camera" name="thumbnail"></div>
+        </a>
+        <span class='label label-info' id="upload-file-info"></span>
+        </div>
+    </div>
 
-            <input type="submit" name="submit" class="btn btn-small" value="Submit"/>
+            <br>
+            <div class="row">
+
+            <input type="submit" name="submit" class="btn btn-primary btn-large" value="    Submit    "/>
+        </div>
         </div>
         </form> 
 {% endblock %}

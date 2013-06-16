@@ -11,6 +11,7 @@
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/css/navbar.css" rel="stylesheet">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
 
@@ -52,11 +53,12 @@
             <ul class="nav pull-right">
               <li>
                 <form action="/search" class="navbar-search">
-                  <input id="tags" type="text" name="search" class="search-query" placeholder="Search">
+                  <input id="tags" type="text" name="search" class="search-query" placeholder="Search"
+                    {% if search %} value="{{ search }}" {% endif %}>
                 </form>
               </li>
               {% if users.get_current_user() %}
-              <li><a href="/profile/{{ users.get_current_user() }}">{{ users.get_current_user() }}</a></li>
+              <li><a>{{ users.get_current_user() }}</a></li>
               {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
