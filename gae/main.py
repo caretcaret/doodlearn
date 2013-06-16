@@ -29,7 +29,8 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        values = {}
+        values = {'videos': ['3MqYE2UuN24', 'IOYyCHGWJq4', 'KIbkoop4AYE']
+        }
         path = 'index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
