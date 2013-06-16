@@ -32,12 +32,24 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'])
 
+def _add_default_values(values):
+    request = webapp2.get_request()
+    logout_url = users.create_logout_url(request.uri)
+    login_url = users.create_login_url(request.uri)
+
+    values.update({'users' : users,
+                    'logout_url' : logout_url,
+                    'login_url' : login_url})
+
+    # users.create_logout_url('/')
+    return values
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         values = {'videos': ['3MqYE2UuN24', 'IOYyCHGWJq4', 'KIbkoop4AYE']}
         path = 'templates/index.html'
         template = JINJA_ENVIRONMENT.get_template(path)
-        self.response.write(template.render(values))
+        self.response.write(template.render(_add_default_values(values)))
 
 class WatchHandler(webapp2.RequestHandler):
     def get(self, video_id):
@@ -47,7 +59,7 @@ class WatchHandler(webapp2.RequestHandler):
         values = {'video': video}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
-        self.response.write(template.render(values))
+        self.response.write(template.render(_add_default_values(values)))
 
 class CreateVideoPointHandler(webapp2.RequestHandler):
     def get(self):
@@ -79,7 +91,7 @@ class UploadFormHandler(webapp2.RequestHandler):
     values = {'upload_url': upload_url}
     path = 'templates/upload.html'
     template = JINJA_ENVIRONMENT.get_template(path)
-    self.response.write(template.render(values))
+    self.response.write(template.render(_add_default_values(values)))
 
 class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
@@ -121,7 +133,22 @@ class SearchHandler(webapp2.RequestHandler):
         values = {'videos': videos}
         path = 'templates/search.html'
         template = JINJA_ENVIRONMENT.get_template(path)
-        self.response.write(template.render(values))
+        self.response.write(template.render(_add_default_values(values)))
+
+class LoginHandler(webapp2.RequestHandler):
+    def get(self):
+        self.post()
+
+    def post(self):
+        query = self.request.get('search')
+        if not query:
+            query = ''
+        videos_q = models.Video.gql("WHERE category = :1", query)
+        videos = list(videos_q)
+        values = {'videos': videos}
+        path = 'templates/search.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(_add_default_values(values)))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -131,5 +158,7 @@ app = webapp2.WSGIApplication([
     ('/upload_file', UploadFileHandler),
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
-    ('/watch/(.+)', WatchHandler)
+    ('/watch/(.+)', WatchHandler),
+    #('/login', LoginHandler),
+    #('/logout', LogoutHandler)
 ], debug=True)
