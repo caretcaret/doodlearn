@@ -4,7 +4,7 @@ $(document).ready(function(){
     myPlayer.dimensions(800,480);
     var video = $("#tags-app").data("video");
     var tag_url = "/parsevp";
-    var upload_url = "/api/get_upload_url";
+    var upload_url = "/api/get_upload_url?json=true";
 
     var dynamicCount = -1;
     var coId = 0;
