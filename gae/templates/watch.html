@@ -1,7 +1,24 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
+<style>body { background-color: #070707; }</style>
+<div class="row">
+  <div class="span9">
     <video src="{{ video.url }}" controls>
-	  Your browser does not support the <code>video</code> element.
-	</video>
+    Your browser does not support the <code>video</code> element.
+    </video>
+  </div>
+  <div class="others span3">
+    <div class="controls">
+      <div class="btn btn-warning span2">I'm confused!</div><br><div class="btn btn-success span2" title="watashi, kininarimasu!">I'm curious!</div><br><div class="btn btn-btn-primary span2">I want an example!</div>
+    </div>
+    <div class="related-videos">
+    </div>
+  </div>
+</div>
+<script>
+// <![CDATA[
+
+// ]]>
+</script>
 {% endblock %}
