@@ -249,7 +249,12 @@ class ParseVideoPointHandler(webapp2.RequestHandler):
 			return videoPointGroup.video.get_thumbnail_url()
 		video_point.put()
 		return None
-	
+
+class APIListHandler(webapp2.RequestHandler):
+    def get(self):
+        videos = models.Video.query().fetch(limit=20)
+        video_data = map(lambda v: [v.name, v.key.id()], videos)
+        self.response.write(json.dumps(video_data))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -261,7 +266,8 @@ app = webapp2.WSGIApplication([
     ('/search', SearchHandler),
     ('/search/ajax', SearchAjaxHandler),
     ('/watch/(\d+)', WatchHandler),
-	('/parsevp',ParseVideoPointHandler)
+	('/parsevp',ParseVideoPointHandler),
+    ('/api/list', APIListHandler),
     #('/confused', ConfusedHandler),
     #('/practice', PracticeHandler),
    # ('/curious', CuriousHandler)
