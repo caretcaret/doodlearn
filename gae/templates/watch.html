@@ -2,6 +2,8 @@
 
 {% block content %}
 <style>body { background-color: #070707; }</style>
+<div class="row"><div class="watch_title">{{ video.name }}</div></div>
+<div class="row"><div class="watch_desc">{{ video.description }}</div></div>
 <div class="row">
   <div class="span9">
     <video src="{{ video.url }}" id="video" controls autoplay>
