@@ -160,7 +160,7 @@ public class RecordFragment extends Fragment {
 			} catch (JSONException e1) {
 				Log.e("jsonexception", e1.toString());
 			}
-			String urlgetter = "http://doodlearn1.appspot.com/api/get_upload_url";
+			String urlgetter = getString(R.string.app_root) + "/api/get_upload_url";
 			
 			try {
 			// get upload url for video
@@ -217,7 +217,7 @@ public class RecordFragment extends Fragment {
 				String videoURL = jo.getString("video_url");
 				if (videoID != "") {
 					Intent intent = new Intent(context, WatchActivity.class);
-					intent.putExtra("vid_url", "http://doodlearn1.appspot.com" + videoURL);
+					intent.putExtra("vid_url", getString(R.string.app_root) + videoURL);
 					startActivity(intent);
 				}
 			} catch (Exception e) {
