@@ -214,7 +214,9 @@ class ParseVideoPointHandler(webapp2.RequestHandler):
 	def post(self):
 		params = self.request.get("data")
 		video = self.request.get("video")
-		time = int(self.request.get("time"))
+		
+		time = self.request.get("time")
+		time = int(round(float(time)))
 		user = users.get_current_user()	
 		point_type = self.request.get("point_type")	
 		halfMinute = time - (time % 30)
