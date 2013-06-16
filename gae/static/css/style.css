@@ -89,6 +89,12 @@ video {
   z-index: 2147483647;
 }
 
+.hero-unit{
+    background-color: rgba(0, 0, 0, 0.5); // use rgba and set Opacity to 0 for transparent.
+ }
+
+
+
 
 
 
