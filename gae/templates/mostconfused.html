@@ -7,9 +7,10 @@
     <div class="hero-unit">
     <a href="{{ video.get_view_url() }}">
       <div class="explore_title">{{ video.name }}</div>
+      <h3>{{ video.confused }} confused</h3>
       <img class="explore_thumbnail" src="{{ video.get_thumbnail_url() }}"  />
     </a>
-</div>
+  </div>
 </div>
   {% endfor %}
 
