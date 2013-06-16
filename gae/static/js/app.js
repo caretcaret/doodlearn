@@ -1,7 +1,7 @@
 $(document).ready(function(){
     var myPlayer = document.getElementById("video");
-    var user = $("#tags").data("user");
-    var video = $("#tags").data("video");
+    var user = $("#tags-app").data("user");
+    var video = $("#tags-app").data("video");
     var tag_url = "/";
 
     //temp
@@ -9,21 +9,11 @@ $(document).ready(function(){
 
     $("#tag-confused").click(function(){
         var time = d.getSeconds();//myPlayer.currentTime();
-        $.ajax({
-            type: "POST",
-            url: tag_url,
-            dataType: "json",
-            async: false,
-            data:JSON.stringify({'user':'Anon',
-                                 'video':'6401356696911872',
-                                 'time':time,
-                                 'point_type':"confused"}),
-            success: function(data){
-                alert("done");
-            },
-            failure: function(data){
-                alert("fail");
-            }
+        $.getJSON({tag_url, {
+                                user: user,
+                                video: video,
+                                time: time,
+                                point_type: "confused"
         });
     });
 
