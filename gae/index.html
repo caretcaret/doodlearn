@@ -40,11 +40,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">doodlearn</a>
+          <a class="brand" href="/">doodlearn</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">New doodle</a></li>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/new">New doodle</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -61,7 +61,7 @@
       <div class="row videos">
         {% for video in videos %}
         <div class="span3">
-          <a href="http://youtube.com/watch?v={{video}}"><img src="http://img.youtube.com/vi/{{video}}/hqdefault.jpg"/></a>
+          <a href="watch/{{video}}"><img src="http://img.youtube.com/vi/{{video}}/hqdefault.jpg"/></a>
         </div>
         {% endfor %}
       </div>

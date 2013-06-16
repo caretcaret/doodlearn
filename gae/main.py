@@ -35,6 +35,13 @@ class MainHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
 
+class WatchHandler(webapp2.RequestHandler):
+    def get(self, video):
+        values = {'youtube_link': video}
+        path = 'watch.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(values))
+
 class CreateVideoHandler(webapp2.RequestHandler):
     def get(self):
         self.post()
@@ -96,5 +103,6 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/create', CreateVideoHandler),
     ('/create_video_point', CreateVideoPointHandler),
-    ('/get_video', GetVideoHandler)
+    ('/get_video', GetVideoHandler),
+    ('/watch/(.+)', WatchHandler)
 ], debug=True)
