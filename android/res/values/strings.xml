@@ -8,6 +8,6 @@
     <string name="select_vid_src">Select Doodle Source</string>
     <string name="hint_title">Title</string>
     <string name="hint_description">Description</string>
-    <string name="app_root">http://doodlearn2.appspot.com</string>
+    <string name="app_root">http://doodlearn1.appspot.com</string>
 
 </resources>
