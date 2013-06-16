@@ -13,14 +13,23 @@ $(document).ready(function(){
                                 point_type: "confused"
         }, function(data) { 
             console.log(data);
-            button.popover({
+            if (data.url) {
+		button.popover({
                 placement: 'left',
                 trigger: 'manual',
                 title: 'Need some help? <button type="button" class="close">×</button>',
                 content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
                 html: true
             });
-
+		}
+	     else {
+		button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Need some help? <button type="button" class="close">×</button>',
+                content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
+		html: true});
+		}
             button.popover('show');
 
             $('.close').click(function() {
@@ -38,6 +47,7 @@ $(document).ready(function(){
                                 point_type: "curious"
         }, function(data) { 
             console.log(data);
+	    if(data.url) {
             button.popover({
                 placement: 'left',
                 trigger: 'manual',
@@ -45,7 +55,14 @@ $(document).ready(function(){
                 content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
                 html: true
             });
-
+	    } else {
+            button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Are you curious? <button type="button" class="close">×</button>',
+                content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
+                html: true
+            })};
             button.popover('show');
 
             $('.close').click(function() {
@@ -63,6 +80,7 @@ $(document).ready(function(){
                                 point_type: "practice"
         }, function(data) { 
             console.log(data);
+	   if(data.url) {
             button.popover({
                 placement: 'left',
                 trigger: 'manual',
@@ -70,9 +88,15 @@ $(document).ready(function(){
                 content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
                 html: true
             });
-
+	  } else {
+            button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Need some practice? <button type="button" class="close">×</button>',
+                content: 'No video is availible yet on this issue :( We will inform you when someone posts a video',
+                html: true
+		}); }
             button.popover('show');
-
             $('.close').click(function() {
                 button.popover('hide');
             });
