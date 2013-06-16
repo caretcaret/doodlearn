@@ -49,6 +49,16 @@ body {
              0px 18px 23px rgba(0,0,0,0.1);
     line-height: 22px;
 }
+.field-p {
+    color: #000;
+    font-size: 25px;
+    font-family: BentonSans ExtraLight;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);
+    line-height: 22px;
+}
+
 
 .upload {
     position:absolute;
@@ -184,5 +194,33 @@ video {
              0px 8px 13px rgba(0,0,0,0.1),
              0px 18px 23px rgba(0,0,0,0.1);
     padding: 0px 0px 15px 0px;
+}
+
+.thumbnail {
+    width: 260px;
+    height: 180px;
+    overflow: hidden; /* contain images within thumbnail boundaries */
+    border: 0; /* removes Bootstrap's default border */
+    box-shadow: 0 12px 12px -10px #c4c4c4;
+    -webkit-box-shadow: 0 17px 22px -20px #c4c4c4;
+    -moz-box-shadow: 0 12px 12px -10px #c4c4c4;
+}
+.thumbnail img { width:100%; height:auto; } /* to keep proportions */
+.thumbnails p { text-align: center; padding: 10px; } /* captions can be styled with an inline element */
+
+.carousel
+{
+    padding:10px 70px;
+}
+
+.slider_title {
+    color: white;
+    font-size: 15px;
+    font-family: Helvetica-Light;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);
+    padding: 0px 0px 0px 0px;
+    margin-left: 8px;
 }
 

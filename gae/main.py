@@ -368,7 +368,10 @@ class APIListHandler(webapp2.RequestHandler):
 
 class APIGetUploadURLHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(blobstore.create_upload_url('/upload_file'))
+        response = blobstore.create_upload_url('/upload_file')
+        if self.request.get('json'):
+            response = helper.to_json(response)
+        self.response.write(response)
 	
 
 app = webapp2.WSGIApplication([

@@ -9,6 +9,7 @@ class Video(ndb.Model):
     standards = ndb.StringProperty() 
     category = ndb.StringProperty(required=True)
     video_file = ndb.BlobKeyProperty(required=True)
+    upload_timestamp = ndb.DateTimeProperty(auto_now_add=True)
     def get_video_url(self):
         if self.video_file:
             return '/serve/%s' % self.video_file
