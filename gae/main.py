@@ -103,6 +103,8 @@ class WatchHandler(webapp2.RequestHandler):
         video.id = video_id
         uastring = self.request.headers.get('user_agent')
         mobile = "android" in uastring.lower()
+        logging.error(uastring)
+        logging.error(mobile)
         values = {'video': video, 'mobile' : mobile}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
@@ -170,10 +172,13 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
         video.parent_video = ndb.Key(models.Video, parent)
 
     video.put()
-    videoPointGroup = models.VideoPointGroup.get_by_id(int(self.request.get('vpg_id')))
-    
-    videoPointGroup.resolved = video.key
-    videoPointGroup.put()
+
+    if self.request.get('vpg_id'):
+        videoPointGroup = models.VideoPointGroup.get_by_id(int(self.request.get('vpg_id')))
+        
+        videoPointGroup.resolved = video.key
+        videoPointGroup.put()
+        
     if self.request.get('noredirect'):
         result = {'video_id' : str(video.key.id()),
                     'video_url' : video.get_video_url()}
