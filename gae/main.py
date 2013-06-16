@@ -103,11 +103,9 @@ class WatchHandler(webapp2.RequestHandler):
         video.id = video_id
         uastring = self.request.headers.get('user_agent')
         mobile = "android" in uastring.lower()
-        logging.error(uastring)
-        logging.error(mobile)
         values = {'video': video, 'mobile' : mobile}
         path = 'templates/watch.html'
-        template = JINJA_ENVIRONMENT.get_template(path)
+        template = JINJA_ENVIRONMENT.get_template(path, values)
 	
         q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(video_id)), models.VideoPointGroup.point_type == 'confused')
 	confused_vpgs = helper.to_json(list(q.order(models.VideoPointGroup.time)))
@@ -253,7 +251,8 @@ class ConfusedHandler(webapp2.RequestHandler):
         videos = helper.key_results(videos)
 
         for vpg in models.VideoPointGroup.query():
-            videos[vpg.video].confused += vpg.numberUsers
+            if vpg.video in videos:
+                videos[vpg.video].confused += vpg.numberUsers
 
         videos = helper.unkey_results(videos)
         videos.sort(key=lambda video:video.confused, reverse=True)
