@@ -207,34 +207,39 @@ class CuriousHandler(webapp2.RequestHandler):
 '''
 
 class ParseVideoPointHandler(webapp2.RequestHandler):
+	
+	def get(self):
+		self.post()
+
 	def post(self):
 		params = self.request.get("data")
-	
-		jsonDict = json.loads(params);
-		
-		halfMinute = jsonDict['time'] / 30;
+		video = self.request.get("video")
+		time = int(self.request.get("time"))
+		user = users.get_current_user()	
+		point_type = self.request.get("point_type")	
+		halfMinute = time - (time % 30)
 
-		q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(jsonDict['video'])), models.VideoPointGroup.time == halfMinute)
+		q = models.VideoPointGroup.query(models.VideoPointGroup.video == ndb.Key(models.Video, int(video)), models.VideoPointGroup.time == halfMinute)
 
-		if not q.hasNext() :
-			videoPointGroup = models.videoPointGroup()
-			videoPointGroup.video = ndb.Key(models.Video, int(jsonDict['video']))
+		if not q.get() :
+			videoPointGroup = models.VideoPointGroup()
+			videoPointGroup.video = ndb.Key(models.Video, int(video))
 			videoPointGroup.time = halfMinute
 			videoPointGroup.numberUsers = 1
-			videoPointGroup.point_type = jsonDict['point_type']
+			videoPointGroup.point_type = point_type
 			videoPointGroup.put()
 						
 		else: 
-			videoPointGroup = q.next()
+			videoPointGroup = q.get()
 			videoPointGroup.numberUsers +=1;
 			videoPointGroup.put()
 
 		#always create videopoint
 		video_point = models.VideoPoint()
-		video_point.user = jsonDict['user']
-		video_point.video = ndb.Key(models.Video, int(jsonDict['video']))
-		video_point.time = jsonDict['time']
-		video_point.point_type = jsonDict['point_type']
+		video_point.user = user
+		video_point.video = ndb.Key(models.Video, int(video))
+		video_point.time = time
+		video_point.point_type = point_type
 		
 		if videoPointGroup.resolved:
 			video_point.resolved = videoPointGroup.resolved
