@@ -2,7 +2,7 @@ from google.appengine.ext import ndb
 
 
 class Video(ndb.Model):
-    user = ndb.UserProperty(required=True)
+    user = ndb.UserProperty()
     parent_video = ndb.KeyProperty(kind='Video',default=None)
     name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
