@@ -158,7 +158,5 @@ app = webapp2.WSGIApplication([
     ('/upload_file', UploadFileHandler),
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
-    ('/watch/(.+)', WatchHandler),
-    #('/login', LoginHandler),
-    #('/logout', LogoutHandler)
+    ('/watch/(\d+)', WatchHandler)
 ], debug=True)
