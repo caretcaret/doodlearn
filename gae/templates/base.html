@@ -41,12 +41,21 @@
             <ul class="nav">
               <li class="active"><a href="/">Home</a></li>
               <li><a href="/new">New doodle</a></li>
+              {% if users.get_current_user() %}
+              <li><a href="{{ logout_url }}">Logout</a></li>
+              {% else %}
+              <li><a href="{{ login_url }}">Login</a></li>
+              {% endif %}
             </ul>
             <ul class="nav pull-right">
               <li>
                 <form action="/search" class="navbar-search">
                   <input id="tags" type="text" name="search" class="search-query" placeholder="Search">
                 </form>
+              </li>
+              {% if users.get_current_user() %}
+              <li><a href="/profile/{{ users.get_current_user() }}">{{ users.get_current_user() }}</a></li>
+              {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
         </div>
