@@ -18,9 +18,10 @@ VP_CURIOUS = 'curious'
 
 class VideoPoint(ndb.Model):
     user = ndb.UserProperty(required=True)
-    video = ndb.KeyProperty(kind=Video, required=True)
+    video = ndb.KeyProperty(kind='Video', required=True)
     # represents the time in the video!
     time = ndb.TimeProperty(required=True)
+    resolved = ndb.KeyProperty(kind='Video')
 
     def _validate_point_type(prop, value):
         if value not in (VP_CURIOUS, VP_CONFUSED, VP_PRACTICE):
