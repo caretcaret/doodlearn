@@ -115,27 +115,34 @@ $(document).ready(function(){
 
     function dynamicUpload() {
         dynamicCount++;
-        if (dynamicCount == confused_vpgs[coId].time){
-            $("#upload-confused").show();
-            $("#upload-confused").data("vpg", confused_vpgs[coId].id);
-        } else if (dynamicCount == (confused_vpgs[coId].time + 30)){
-            coId++;
-            $("#upload-confused").hide();
+
+        if (coId < confused_vpgs) {
+            if (dynamicCount == confused_vpgs[coId].time){
+                $("#upload-confused").show();
+                $("#upload-confused").data("vpg", confused_vpgs[coId].id);
+            } else if (dynamicCount == (confused_vpgs[coId].time + 30)){
+                coId++;
+                $("#upload-confused").hide();
+            }
         }
-        if (dynamicCount == curious_vpgs[cuId].time){
-            $("#upload-curious").show();
-            $("#upload-curious").data("vpg", curious_vpgs[cuId].id);
-        } else if (dynamicCount == (confused_vpgs[cuId].time + 30)){
-            cuId++;
-            $("#upload-curious").hide();
+        if (cuId < curious_vpgs.length) {
+            if (dynamicCount == curious_vpgs[cuId].time){
+                $("#upload-curious").show();
+                $("#upload-curious").data("vpg", curious_vpgs[cuId].id);
+            } else if (dynamicCount == (curious_vpgs[cuId].time + 30)){
+                cuId++;
+                $("#upload-curious").hide();
+            }
         }
 
-        if (dynamicCount == practice_vpgs[prId].time){
-            $("#upload-practice").show();
-            $("#upload-practice").data("vpg", practice_vpgs[prId].id);
-        } else if (dynamicCount == (practice_vpgs[prId].time + 30)){
-            	prId++;
-		$("#upload-practice").hide();
+        if (prId < practice_vpgs.length) {
+            if (dynamicCount == practice_vpgs[prId].time){
+                $("#upload-practice").show();
+                $("#upload-practice").data("vpg", practice_vpgs[prId].id);
+            } else if (dynamicCount == (practice_vpgs[prId].time + 30)){
+                prId++;
+                $("#upload-practice").hide();
+            }
         }
     }
 
@@ -143,7 +150,7 @@ $(document).ready(function(){
         $('#upload-confused').modal({
                                     backdrop:true,
                                     keyboard:true,
-                                    show:true,
+                                    show:true
         });
     });
 });
