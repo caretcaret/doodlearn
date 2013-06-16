@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class ExploreFragment extends ListFragment {
-	public final String VID_LISTING_URL = "http://doodlearn1.appspot.com/api/list";
+	public String VID_LISTING_URL;
 	public ArrayList<String> vid_titles;
 	public ArrayList<Long> vid_ids;
 	public ArrayList<String> vid_urls;
@@ -31,6 +31,7 @@ public class ExploreFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 	  super.onActivityCreated(savedInstanceState);
+	  VID_LISTING_URL = getString(R.string.app_root) + "/api/list";
 	  String[] values = new String[] {};
 	  new GetListTask().execute(VID_LISTING_URL);
 	  ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -43,7 +44,7 @@ public class ExploreFragment extends ListFragment {
 	  // Do something with the data
 		Context context = getActivity();
 		Intent intent = new Intent(context, WatchActivity.class);
-		intent.putExtra("vid_url", "http://doodlearn1.appspot.com/serve/" + vid_urls.get(position));
+		intent.putExtra("vid_url", getString(R.string.app_root) + "/serve/" + vid_urls.get(position));
 		startActivity(intent);
 		//Toast.makeText(context, vid_ids.get(position).toString()
 		//		+ vid_urls.get(position), Toast.LENGTH_SHORT).show();
