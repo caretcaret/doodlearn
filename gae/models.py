@@ -28,3 +28,15 @@ class VideoPoint(ndb.Model):
             raise Exception("Invalid point type, " + value)
 
     point_type = ndb.StringProperty(required=True, validator=_validate_point_type)
+
+
+class VideoPointGroup(ndb.Model):
+	video = ndb.KeyProperty(kind='Video', required=True)
+	time = ndb.TimeProperty(required=True)
+	resolved = ndb.KeyProperty(kind='Video')
+	numberUsers = ndb.IntegerProperty(required=True)
+	def _validate_point_type(prop, value):
+		if value not in (VP_CURIOUS, VP_CONFUSED, VP_PRACTICE):
+			raise Exception("Invalid point type, " + value)
+
+	point_type = ndb.StringProperty(required=True, validator=_validate_point_type)
