@@ -110,8 +110,9 @@ class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
     video_blob_info = self.get_uploads('video')[0]  # 'video' is file upload field in the form
     video.video_file = video_blob_info.key()
 
-    thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
-    video.thumbnail_file = thumbnail_blob_info.key()
+    if self.get_uploads('thumbnail'):
+        thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
+        video.thumbnail_file = thumbnail_blob_info.key()
 
     parent = self.request.get('parent')
     if parent:
