@@ -1,7 +1,7 @@
 body {
     padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
-.video {
+video {
     margin: 0 auto;
     height: 600px;
     width: 800px;

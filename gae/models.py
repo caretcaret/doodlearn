@@ -2,12 +2,13 @@ from google.appengine.ext import ndb
 
 
 class Video(ndb.Model):
+    user = ndb.UserProperty(required=True)
     parent_video = ndb.KeyProperty(kind='Video',default=None)
     name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     standards = ndb.StringProperty() 
     category = ndb.StringProperty(required=True)
-    youtube = ndb.StringProperty(required=True)
+    video_file = ndb.BlobKeyProperty(required=True)
 
 
 VP_CONFUSED = 'confused'
