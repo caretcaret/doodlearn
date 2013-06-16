@@ -1,13 +1,24 @@
 {% extends "templates/base.html" %}
 {% block content %}
     {% if videos %}
-        <ul>
+        <div class="title">Results</div>
+        <div class="hero-unit">
             {% for v in videos %}
-                <li> <a href="/watch/{{ v.key.id() }}">{{v.name}}</a></li>
+                <div class="media">
+                    <a class="pull-left" href="/watch/{{ v.key.id() }}">
+                        <img class="search_thumbnail" src="{{ v.get_thumbnail_url() }}" />
+                    </a>
+                    <div class="media-body">
+                        <a href="/watch/{{ v.key.id() }}"><h4 class="media-heading"><div class="search_title">{{ v.name }}</div></h4></a>
+                        <p><div class="search_description">{{ v.description }}</div></p>
+                    </div>
+                    
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        No videos found.
+        <div class="title">No videos found.</div>
     {% endif %}
 {% endblock %}
+
 
