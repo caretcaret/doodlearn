@@ -324,10 +324,10 @@ class ParseVideoPointHandler(webapp2.RequestHandler):
             video_url = "/watch/"+ str(videoPointGroup.resolved.id())
             self.response.write(json.dumps({'thumbnail': video_thumbnail,
                                             'url': video_url}))
-
-        video_point.put()
-        # dummy response for now
-        self.response.write(json.dumps({}))
+            video_point.put()
+        else:
+            video_point.put()
+            self.response.write(json.dumps({}))
 
 class APIListHandler(webapp2.RequestHandler):
     def get(self):
