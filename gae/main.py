@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import json
 import os
 
 from google.appengine.api import users
@@ -142,6 +143,11 @@ class SearchHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(_add_default_values(values)))
 
+class SearchAjaxHandler(webapp2.RequestHandler):
+    def get(self):
+        video_names = map(lambda video : video.name, models.Video.query().fetch())
+        self.response.write(json.dumps(video_names))
+
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
         self.post()
@@ -189,6 +195,7 @@ app = webapp2.WSGIApplication([
     ('/upload_file', UploadFileHandler),
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
+    ('/search/ajax', SearchAjaxHandler),
     ('/watch/(\d+)', WatchHandler)
     #('/confused', ConfusedHandler),
     #('/practice', PracticeHandler),
