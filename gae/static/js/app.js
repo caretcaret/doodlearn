@@ -1,8 +1,18 @@
+var myPlayer = "";
 $(document).ready(function(){
-    var myPlayer = videojs("video",{"controls":true, "autoplay":true, "preload":true});
+    myPlayer = videojs("video",{"controls":true, "autoplay":true, "preload":true});
     myPlayer.dimensions(800,480);
     var video = $("#tags-app").data("video");
     var tag_url = "/parsevp";
+    var dynamicCount = -1;
+    var coId = 0;
+    var cuId = 0;
+    var prId = 0;
+    $("#upload-confused").hide();
+    $("#upload-curious").hide();
+    $("#upload-practice").hide();
+
+    var dynamicTimer = setInterval(dynamicUpload, 1000);
 
     $("#tag-confused").click(function(){
         var time = myPlayer.currentTime();
@@ -103,12 +113,31 @@ $(document).ready(function(){
         });
     });
 
-    $("#upload-confused").click(function(){
-    });
+    function dynamicUpload() {
+        dynamicCount++;
+        if ((dynamicCount >= confused_vpgs[coId].time) &&
+                (dynamicCount <= (confused_vpgs[coId].time+30))){
+            $("#upload-confused").show();
+            coId++;
+        } else {
+            $("#upload-confused").hide();
+        }
+        if ((dynamicCount >= curious_vpgs[cuId].time) &&
+                (dynamicCount <= (curious_vpgs[cuId].time+30))){
+            $("#upload-curious").show();
+            cuId++;
+        } else {
+            $("#upload-curious").hide();
+        }
 
-    $("#upload-curious").click(function(){
-    });
+        if ((dynamicCount >= practice_vpgs[prId].time) &&
+            (dynamicCount <= (practice_vpgs[prId].time+30))){
+            $("#upload-practice").show();
+            prId++;
+        } else {
+            $("#upload-practice").hide();
+        }
+    }
 
-    $("#upload-practice").click(function(){
-    });
+    
 });
