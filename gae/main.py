@@ -359,6 +359,10 @@ class APIListHandler(webapp2.RequestHandler):
 		video_point.put()
 		self.response.out.write("hello")
 		return json.dumps("{foo}")
+
+class APIGetUploadURLHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(blobstore.create_upload_url('/upload_file'))
 	
 
 app = webapp2.WSGIApplication([
@@ -375,7 +379,8 @@ app = webapp2.WSGIApplication([
     ('/api/list', APIListHandler),
     ('/explore', ExploreHandler),
     ('/category/(.*)', CategoryHandler),
-    ('/confused', ConfusedHandler)
+    ('/confused', ConfusedHandler),
+    ('/api/get_upload_url', APIGetUploadURLHandler)
     #('/practice', PracticeHandler),
    # ('/curious', CuriousHandler)
 ], debug=True)
