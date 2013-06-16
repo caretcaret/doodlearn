@@ -15,7 +15,7 @@ class Video(ndb.Model):
         else:
             return None
 
-    thumbnail_file = ndb.BlobKeyProperty(required=True)
+    thumbnail_file = ndb.BlobKeyProperty()
     def get_thumbnail_url(self):
         if self.thumbnail_file:
             return '/serve/%s' % self.thumbnail_file
