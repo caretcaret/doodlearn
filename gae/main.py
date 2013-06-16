@@ -56,7 +56,7 @@ class WatchHandler(webapp2.RequestHandler):
     def get(self, video_id):
         video = models.Video.get_by_id(int(video_id))
         video.url = '/serve/%s' % video.video_file
-
+        video.id = video_id
         values = {'video': video}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
