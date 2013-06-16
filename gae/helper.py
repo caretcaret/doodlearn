@@ -45,6 +45,8 @@ def to_dict(model):
 
             output[key] = to_dict(value)
 
+        output['id'] = to_dict(model.key)
+
             
 
         return output
