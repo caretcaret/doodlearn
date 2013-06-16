@@ -14,25 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import os
+
+from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 import webapp2
 
 import helper
 import models
 import jinja2
-import os
-
-
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'])
-
-import os
 import urllib
-
-import jinja2
-import webapp2
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -46,45 +40,14 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(template.render(values))
 
 class WatchHandler(webapp2.RequestHandler):
-    def get(self, video):
-        values = {'youtube_link': video}
+    def get(self, video_id):
+        video = models.Video.get_by_id(int(video_id))
+        video.url = '/serve/%s' % video.video_file
+
+        values = {'video': video}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
-
-class CreateVideoHandler(webapp2.RequestHandler):
-    def get(self):
-        self.post()
-
-    def post(self):
-  #   	params = dict(self.request.params.items())
-
-  #   	model_type = params.pop("model", None)
-  #   	model = None
-  #   	if model_type == 'video':
-  #   		model = models.Video
-		# elif model_type == 'video_point':
-		# 	model = models.VideoPoint
-		# else:
-		# 	raise Exception("unknown model type")
-
-  #   	model = model(**params)
-  #   	model.put()
-        
-        video = models.Video()
-        video.name = self.request.get('name')
-
-        parent = self.request.get('parent')
-        if parent:
-        	video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
-
-        video.description = self.request.get('description')
-        video.standards = self.request.get('standards')
-        video.category = self.request.get('category')
-        video.youtube = self.request.get('youtube')
-        video.put()
-
-        self.response.write('success')
 
 class CreateVideoPointHandler(webapp2.RequestHandler):
     def get(self):
@@ -109,6 +72,42 @@ class GetVideoHandler(webapp2.RequestHandler):
 
         self.response.write(helper.to_json(video))
 
+class UploadFormHandler(webapp2.RequestHandler):
+  def get(self):
+    upload_url = blobstore.create_upload_url('/upload_file')
+
+    values = {'upload_url': upload_url}
+    path = 'templates/upload.html'
+    template = JINJA_ENVIRONMENT.get_template(path)
+    self.response.write(template.render(values))
+
+class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
+  def post(self):
+    upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
+    blob_info = upload_files[0]
+
+    video = models.Video()
+    video.name = self.request.get('name')
+    video.description = self.request.get('description')
+    video.category = self.request.get('category')
+    video.video_file = blob_info.key()
+    video.user = users.get_current_user()
+
+    parent = self.request.get('parent')
+    if parent:
+        video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
+
+    video.put()
+
+    # TODO: display a success page?
+    self.redirect('/')
+
+class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
+  def get(self, resource):
+    resource = str(urllib.unquote(resource))
+    blob_info = blobstore.BlobInfo.get(resource)
+    self.send_blob(blob_info)
+
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
         self.post()
@@ -124,12 +123,13 @@ class SearchHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(values))
 
-
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/create', CreateVideoHandler),
     ('/create_video_point', CreateVideoPointHandler),
     ('/get_video', GetVideoHandler),
+    ('/new', UploadFormHandler),
+    ('/upload_file', UploadFileHandler),
+    ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
     ('/watch/(.+)', WatchHandler)
 ], debug=True)
