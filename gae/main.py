@@ -17,6 +17,7 @@
 import json
 import itertools
 import os
+import traceback
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -100,7 +101,9 @@ class WatchHandler(webapp2.RequestHandler):
         video = models.Video.get_by_id(int(video_id))
         video.url = '/serve/%s' % video.video_file
         video.id = video_id
-        values = {'video': video}
+        uastring = self.request.headers.get('user_agent')
+        mobile = "android" in uastring.lower()
+        values = {'video': video, 'mobile' : mobile}
         path = 'templates/watch.html'
         template = JINJA_ENVIRONMENT.get_template(path)
 	
@@ -149,32 +152,38 @@ class UploadFormHandler(webapp2.RequestHandler):
 
 class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
-    video = models.Video()
-    video.name = self.request.get('name')
-    video.description = self.request.get('description')
-    video.category = self.request.get('category')
-    video.user = users.get_current_user()
+    try:
+        video = models.Video()
+        video.name = self.request.get('name')
+        video.description = self.request.get('description')
+        video.category = self.request.get('category')
+        video.user = users.get_current_user()
 
-    video_blob_info = self.get_uploads('video')[0]  # 'video' is file upload field in the form
-    video.video_file = video_blob_info.key()
+        video_blob_info = self.get_uploads('video')[0]  # 'video' is file upload field in the form
+        video.video_file = video_blob_info.key()
 
-    if self.get_uploads('thumbnail'):
-        thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
-        video.thumbnail_file = thumbnail_blob_info.key()
+        if self.get_uploads('thumbnail'):
+            thumbnail_blob_info = self.get_uploads('thumbnail')[0]  # 'video' is file upload field in the form
+            video.thumbnail_file = thumbnail_blob_info.key()
 
-    parent = self.request.get('parent')
-    if parent:
-        video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
+        parent = self.request.get('parent')
+        if parent:
+            video.parent_video = ndb.Key(models.Video, self.request.get('parent'))
 
-    video.put()
+        video.put()
 
-    if self.request.get('noredirect'):
-        result = {'video_id' : str(video.key.id()),
-                    'video_url' : video.get_video_url()}
-        self.response.write(helper.to_json(result))
-    else:
-        # TODO: display a success page?
-        self.redirect('/watch/' + str(video.key.id()))
+        if self.request.get('noredirect'):
+            result = {'video_id' : str(video.key.id()),
+                        'video_url' : video.get_video_url()}
+            self.response.write(helper.to_json(result))
+        else:
+            # TODO: display a success page?
+            self.redirect('/watch/' + str(video.key.id()))
+    except et, e:
+        logging.info(et)
+        logging.error(e)
+        logging.error(traceback.format_exc())
+        logging.info('^'*500)
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):
