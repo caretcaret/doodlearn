@@ -102,15 +102,16 @@ class GetVideoHandler(webapp2.RequestHandler):
 
         self.response.write(helper.to_json(video))
 
-class VideoHandler(webapp2.RequestHandler):
+class UploadFormHandler(webapp2.RequestHandler):
   def get(self):
-    upload_url = blobstore.create_upload_url('/upload')
-    self.response.out.write('<html><body>')
-    self.response.out.write('<form action="%s" method="POST" enctype="multipart/form-data">' % upload_url)
-    self.response.out.write("""Upload File: <input type="file" accept="video/*;capture=camcorder" name="file"><br> <input type="submit"
-        name="submit" value="Submit"> </form></body></html>""")
+    upload_url = blobstore.create_upload_url('/upload_file')
 
-class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+    values = {'upload_url': upload_url}
+    path = 'templates/upload.html'
+    template = JINJA_ENVIRONMENT.get_template(path)
+    self.response.write(template.render(values))
+
+class UploadFileHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
     upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
     blob_info = upload_files[0]
@@ -142,8 +143,8 @@ app = webapp2.WSGIApplication([
     ('/create', CreateVideoHandler),
     ('/create_video_point', CreateVideoPointHandler),
     ('/get_video', GetVideoHandler),
-    ('/videos', VideoHandler),
-    ('/upload', UploadHandler),
+    ('/upload', UploadFormHandler),
+    ('/upload_file', UploadFileHandler),
     ('/serve/([^/]+)?', ServeHandler),
     ('/search', SearchHandler),
     ('/watch/(.+)', WatchHandler)
