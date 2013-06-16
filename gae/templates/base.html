@@ -11,8 +11,6 @@
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <script src="http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3"></script>
-
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="static/bootstrap/js/html5shiv.js"></script>
@@ -45,7 +43,7 @@
             <ul class="nav pull-right">
               <li>
                 <form action="/search" class="navbar-search">
-                  <input type="text" name="search" class="search-query" placeholder="Search">
+                  <input id="tags" type="text" name="search" class="search-query" placeholder="Search">
                 <form>
             </ul>
           </div><!--/.nav-collapse -->
@@ -62,5 +60,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="/static/js/autocomplete.js"></script>
   </body>
 </html>
