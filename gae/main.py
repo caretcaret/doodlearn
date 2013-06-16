@@ -19,10 +19,20 @@ import webapp2
 
 import helper
 import models
+import jinja2
+import os
+
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'])
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        values = {}
+        path = 'index.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(values))
 
 class CreateVideoHandler(webapp2.RequestHandler):
     def get(self):
