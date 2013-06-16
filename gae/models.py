@@ -9,6 +9,18 @@ class Video(ndb.Model):
     standards = ndb.StringProperty() 
     category = ndb.StringProperty(required=True)
     video_file = ndb.BlobKeyProperty(required=True)
+    def get_video_url(self):
+        if self.video_file:
+            return '/serve/%s' % self.video_file
+        else:
+            return None
+
+    thumbnail_file = ndb.BlobKeyProperty()
+    def get_thumbnail_url(self):
+        if self.thumbnail_file:
+            return '/serve/%s' % self.thumbnail_file
+        else:
+            return None
 
 
 VP_CONFUSED = 'confused'
