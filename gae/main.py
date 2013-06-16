@@ -229,16 +229,18 @@ class LoginHandler(webapp2.RequestHandler):
 
 class ConfusedHandler(webapp2.RequestHandler):
     def get(self):
-        videos = helper.key_results(models.Video.query().fetch())
+        videos = models.Video.query().fetch()
         for video in videos:
             video.confused = 0
+
+        videos = helper.key_results(videos)
 
         for vpg in models.VideoPointGroup.query():
             videos[vpg.video].confused += vpg.numberUsers
 
         videos = helper.unkey_results(videos)
         videos.sort(key=lambda video:video.confused, reverse=True)
-        videos = videos[:5] #limit to top 5 confused
+        videos = videos[:6] #limit to top 5 confused
 
         path = 'templates/mostconfused.html'
         template = JINJA_ENVIRONMENT.get_template(path)

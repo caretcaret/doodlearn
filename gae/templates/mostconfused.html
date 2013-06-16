@@ -6,10 +6,11 @@
   <div class="span4">
     <div class="hero-unit">
     <a href="{{ video.get_view_url() }}">
-      <div class="explore_title">{{ video.name }}</div>
+      <div class="explore_title">{{ video.name }}:</div>
+      <div class="num_confused">{{ video.confused }} confused</div>
       <img class="explore_thumbnail" src="{{ video.get_thumbnail_url() }}"  />
     </a>
-</div>
+  </div>
 </div>
   {% endfor %}
 

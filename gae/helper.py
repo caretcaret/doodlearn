@@ -11,7 +11,7 @@ SIMPLE_TYPES = (int, long, float, bool, dict, basestring)
 def key_results(l):
     result = {}
     for item in l:
-        result[l.key] = l
+        result[item.key] = item
     return result
 
 def unkey_results(d):

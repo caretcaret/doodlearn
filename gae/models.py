@@ -24,7 +24,7 @@ class Video(ndb.Model):
 
     def get_view_url(self):
         if self.key.id():
-            return '/watch/' + self.key.id()
+            return '/watch/' + str(self.key.id())
         else:
             return None
 
