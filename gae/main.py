@@ -253,7 +253,7 @@ class ParseVideoPointHandler(webapp2.RequestHandler):
 class APIListHandler(webapp2.RequestHandler):
     def get(self):
         videos = models.Video.query().fetch(limit=20)
-        video_data = map(lambda v: [v.name, v.key.id()], videos)
+        video_data = map(lambda v: [v.name, v.key.id(), str(v.video_file)], videos)
         self.response.write(json.dumps(video_data))
 
 app = webapp2.WSGIApplication([
