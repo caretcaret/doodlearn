@@ -209,7 +209,7 @@ class CuriousHandler(webapp2.RequestHandler):
 class ParseVideoPointHandler(webapp2.RequestHandler):
 	def post(self):
 		params = self.request.get("data")
-		
+	
 		jsonDict = json.loads(params);
 		
 		halfMinute = jsonDict['time'] / 30;
