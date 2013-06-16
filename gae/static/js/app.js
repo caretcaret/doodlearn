@@ -31,24 +31,51 @@ $(document).ready(function(){
 
     $("#tag-curious").click(function(){
         var time = myPlayer.currentTime();
+        var button = $(this);
         $.getJSON(tag_url, {
                                 video: video,
                                 time: time,
                                 point_type: "curious"
-        })
-        .done(function(data) {
+        }, function(data) { 
             console.log(data);
+            button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Are you curious? <button type="button" class="close">×</button>',
+                content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
+                html: true
+            });
+
+            button.popover('show');
+
+            $('.close').click(function() {
+                button.popover('hide');
+            });
         });
     });
 
     $("#tag-practice").click(function(){
         var time = myPlayer.currentTime();
+        var button = $(this);
         $.getJSON(tag_url, {
                                 video: video,
                                 time: time,
                                 point_type: "practice"
         }, function(data) { 
             console.log(data);
+            button.popover({
+                placement: 'left',
+                trigger: 'manual',
+                title: 'Need some practice? <button type="button" class="close">×</button>',
+                content: 'Click for a more detailed explanation: <a href="' + data.url + '"><img src="' + data.thumbnail + '"/></a>',
+                html: true
+            });
+
+            button.popover('show');
+
+            $('.close').click(function() {
+                button.popover('hide');
+            });
         });
     });
 
