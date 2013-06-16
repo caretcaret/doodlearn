@@ -130,7 +130,6 @@ video {
 }
 
 .watch_title {
-    margin-left: 60px;
     color: white;
     font-size: 60px;
     font-family: BentonSans ExtraLight;
@@ -141,14 +140,13 @@ video {
 }
 
 .watch_desc {
-    margin-left: 60px;
     color: white;
     font-size: 15px;
     font-family: Helvetica-Light;
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
              0px 8px 13px rgba(0,0,0,0.1),
              0px 18px 23px rgba(0,0,0,0.1);
-    padding: 15px 0px 0px 0px;
+    padding: 15px 0px 20px 0px;
 }
 
 
